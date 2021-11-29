@@ -1,4 +1,4 @@
-package controller
+package routes
 
 import (
 	"github/yuyenews/Beerus/network/http/commons"

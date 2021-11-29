@@ -1,9 +1,9 @@
 package main
 
-import string_util "github/yuyenews/Beerus/commons/util"
+import "github/yuyenews/Beerus/commons/util"
 
 func main() {
-	//controller.CreateRoute()
+	//routes.CreateRoute()
 	//interceptor.CreateInterceptor()
 	//
 	//beerus.StartHttp(8080)
