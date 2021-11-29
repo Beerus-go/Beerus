@@ -12,6 +12,6 @@ func CreateRoute() {
 		if err == nil {
 
 		}
-		res.SendStream("哈哈哈哈.dmg", file)
+		res.SendStream("goland.dmg", file)
 	})
 }
