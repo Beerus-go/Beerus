@@ -5,20 +5,23 @@ import (
 	"github/yuyenews/Beerus/commons/util"
 	"github/yuyenews/Beerus/network/http/commons"
 	"github/yuyenews/Beerus/web"
+	"github/yuyenews/Beerus/web/route"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
-// StartHttpServer 启动一个http服务
+// StartHttpServer Start an http service
 func StartHttpServer(port string) {
+
+	route.ReloadMatchToUrl()
 
 	http.HandleFunc("/", handler)
 	http.ListenAndServe("0.0.0.0:"+port, nil)
 
 }
 
-// handler 数据解析器
+// handler
 func handler(write http.ResponseWriter, request *http.Request) {
 
 	var req = new(commons.BeeRequest)
@@ -37,7 +40,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	web.ExecuteApi(req, res)
 }
 
-// parsingJson 解析json参数
+// parsingJson Parsing json parameters
 func parsingJson(request *commons.BeeRequest) error {
 
 	contentType := request.HeaderValue(commons.ContentType)

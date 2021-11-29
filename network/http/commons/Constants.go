@@ -12,9 +12,8 @@ const (
 	ErrorMsg           = "{\"code\":%s, \"msg\":\"%s\"}"
 )
 
-// ----------- 判断Content-Type 是否符合要求 -----------
+// ----------- Determine whether the Content-Type matches the requirements -----------
 
-// IsJSON 判断是否是json
 func IsJSON(contentType string) bool {
 	contentType = strings.ToLower(contentType)
 
@@ -24,7 +23,6 @@ func IsJSON(contentType string) bool {
 	return false
 }
 
-// IsFormData 判断是否是formData
 func IsFormData(contentType string) bool {
 	contentType = strings.ToLower(contentType)
 
@@ -34,7 +32,6 @@ func IsFormData(contentType string) bool {
 	return false
 }
 
-// IsUrlEncode 判断是否是普通表单
 func IsUrlEncode(contentType string) bool {
 	contentType = strings.ToLower(contentType)
 

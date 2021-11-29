@@ -1,23 +1,54 @@
 package route
 
-import "github/yuyenews/Beerus/network/http/commons"
+import (
+	"github/yuyenews/Beerus/commons/util"
+	"github/yuyenews/Beerus/network/http/commons"
+)
 
-var interceptorMap = make(map[string][]func(req *commons.BeeRequest, res *commons.BeeResponse))
+// interceptorMap
+//Store the map of the interceptor
+var interceptorMap = make(map[string]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
 
-var AfterReloadingInterceptorMap = make(map[string][]func(req *commons.BeeRequest, res *commons.BeeResponse))
+// afterReloadingInterceptorMap
+//When the service is started, the interceptor pattern and route are matched and then stored here to improve the efficiency of getting the interceptor based on the route.
+var afterReloadingInterceptorMap = make(map[string]map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
 
-func AddInterceptor(pattern string, before func(req *commons.BeeRequest, res *commons.BeeResponse), after func(req *commons.BeeRequest, res *commons.BeeResponse)) {
-	var interceptor = make([]func(req *commons.BeeRequest, res *commons.BeeResponse), 2)
-	interceptor[0] = before
-	interceptor[1] = after
-
-	interceptorMap[pattern] = interceptor
+// AddInterceptor
+// Add an interceptor
+func AddInterceptor(pattern string, before func(req *commons.BeeRequest, res *commons.BeeResponse) string) {
+	interceptorMap[pattern] = before
 }
 
-func GetInterceptor(path string) []func(req *commons.BeeRequest, res *commons.BeeResponse) {
-	return AfterReloadingInterceptorMap[path]
+// GetInterceptor
+// Get interceptors based on routes
+func GetInterceptor(path string) map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string {
+	return afterReloadingInterceptorMap[path]
 }
 
+// ReloadMatchToUrl
+// When the service is started, the interceptor and the route are matched and then stored according to the route, so that it is easy to get the interceptor according to the route
 func ReloadMatchToUrl() {
+	if len(interceptorMap) <= 0 || len(afterReloadingInterceptorMap) > 0 {
+		return
+	}
 
+	index := 0
+
+	for key, value := range interceptorMap {
+		for routePath, _ := range routeMap {
+			if string_util.Match(routePath, key) == false {
+				continue
+			}
+
+			var interceptorArray = afterReloadingInterceptorMap[routePath]
+			if interceptorArray == nil || len(interceptorArray) <= 0 {
+				interceptorArray = make(map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
+			}
+
+			interceptorArray[index] = value
+			afterReloadingInterceptorMap[routePath] = interceptorArray
+
+			index++
+		}
+	}
 }

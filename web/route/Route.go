@@ -2,55 +2,55 @@ package route
 
 import "github/yuyenews/Beerus/network/http/commons"
 
-// 存路由的map
+// Store the map of the route
 var routeMap = make(map[string]func(req *commons.BeeRequest, res *commons.BeeResponse))
 
-// GetRouteMap 获取所有路由
+// GetRouteMap Get all routes
 func GetRouteMap() map[string]func(req *commons.BeeRequest, res *commons.BeeResponse) {
 	return routeMap
 }
 
-// GetRoute 获取路由
+// GetRoute Get routes
 func GetRoute(path string) func(req *commons.BeeRequest, res *commons.BeeResponse) {
 	return routeMap[path]
 }
 
-// GET 添加GET请求方式的路由
+// GET Add a route for GET request method
 func GET(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "GET", function)
 }
 
-// POST 添加GET请求方式的路由
+// POST Add a route for POST request method
 func POST(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "GET", function)
 }
 
-// PUT 添加GET请求方式的路由
+// PUT Add a route for PUT request method
 func PUT(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "PUT", function)
 }
 
-// DELETE 添加GET请求方式的路由
+// DELETE Add a route for DELETE request method
 func DELETE(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "DELETE", function)
 }
 
-// PATCH 添加GET请求方式的路由
+// PATCH Add a route for PATCH request method
 func PATCH(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "PATCH", function)
 }
 
-// HEAD 添加GET请求方式的路由
+// HEAD Add a route for HEAD request method
 func HEAD(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "HEAD", function)
 }
 
-// OPTIONS 添加GET请求方式的路由
+// OPTIONS Add a route for OPTIONS request method
 func OPTIONS(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	AddRoute(path, "OPTIONS", function)
 }
 
-// AddRoute 添加路由，如果需要采用其他请求方式，可以用这个
+// AddRoute Add a route, and if you need to use another request method, you can use this
 func AddRoute(path string, method string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
 	routeMap[path+"/"+method] = function
 }
