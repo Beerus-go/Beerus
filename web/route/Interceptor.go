@@ -1,6 +1,6 @@
 package route
 
-import "github/yuyenews/beerus/network/http/commons"
+import "github/yuyenews/Beerus/network/http/commons"
 
 var interceptorMap = make(map[string][]func(req *commons.BeeRequest, res *commons.BeeResponse))
 

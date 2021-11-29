@@ -2,7 +2,7 @@ package commons
 
 import (
 	"fmt"
-	"github/yuyenews/beerus/commons/util"
+	"github/yuyenews/Beerus/commons/util"
 	"mime/multipart"
 	"net/http"
 	"net/url"
