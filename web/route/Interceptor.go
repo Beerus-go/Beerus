@@ -3,6 +3,7 @@ package route
 import (
 	"github/yuyenews/Beerus/commons/util"
 	"github/yuyenews/Beerus/network/http/commons"
+	"strings"
 )
 
 // interceptorMap
@@ -36,6 +37,9 @@ func ReloadMatchToUrl() {
 
 	for key, value := range interceptorMap {
 		for routePath, _ := range routeMap {
+			last := strings.LastIndex(routePath, "/")
+			routePath = routePath[:last]
+
 			if string_util.Match(routePath, key) == false {
 				continue
 			}
