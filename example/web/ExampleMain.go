@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/yuyenews/Beerus"
-	"github.com/yuyenews/Beerus/example/interceptor"
-	"github.com/yuyenews/Beerus/example/routes"
+	"github.com/yuyenews/Beerus/example/web/interceptor"
+	"github.com/yuyenews/Beerus/example/web/routes"
 )
 
 func main() {
