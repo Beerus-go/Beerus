@@ -23,7 +23,15 @@ func CreateRoute() {
 	route.POST("/example/post", func(req *commons.BeeRequest, res *commons.BeeResponse) {
 		param := DemoParam{}
 
+		// Extraction parameters, Generally used in scenarios where verification is not required or you want to verify manually
 		params.ToStruct(req, &param, param)
+
+		// Separate validation of data in struct, this feature can be used independently in any case and is not limited to the routing layer.
+		var result = params.Verification(req, &param, param)
+		if result != params.SUCCESS {
+			res.SendErrorMsg(1128, result)
+			return
+		}
 
 		println(param.TestStringReception)
 		println(param.TestIntReception)
@@ -37,19 +45,20 @@ func CreateRoute() {
 		//print(": ")
 		//println(param.TestBeeFileReception.FileHeader.Size)
 
-		var result = params.Verification(req, &param, param)
-		if result != params.SUCCESS {
-			res.SendErrorMsg(1128, result)
-			return
-		}
-
 		res.SendJson(`{"msg":"SUCCESS"}`)
 	})
 
 	// Example of parameter conversion to struct + checksum in one step
 	route.PUT("/example/put", func(req *commons.BeeRequest, res *commons.BeeResponse) {
 		param := DemoParam{}
+
+		// Extraction of parameters + validation
 		var result = params.ToStructAndVerification(req, &param, param)
+
+		if result != params.SUCCESS {
+			res.SendErrorMsg(1128, result)
+			return
+		}
 
 		println(param.TestStringReception)
 		println(param.TestIntReception)
@@ -58,13 +67,6 @@ func CreateRoute() {
 		println(param.TestUintReception)
 		println(param.TestUint64Reception)
 		println(param.TestBoolReception)
-
-		if result != params.SUCCESS {
-			res.SendErrorMsg(1128, result)
-			return
-		}
-
-		//println(paramStruct)
 
 		res.SendJson(`{"msg":"SUCCESS"}`)
 	})
