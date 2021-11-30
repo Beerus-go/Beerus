@@ -1,9 +1,9 @@
 package web
 
 import (
-	"github/yuyenews/Beerus/application/web/params"
-	"github/yuyenews/Beerus/application/web/route"
-	"github/yuyenews/Beerus/network/http/commons"
+	"github.com/yuyenews/Beerus/application/web/params"
+	"github.com/yuyenews/Beerus/application/web/route"
+	"github.com/yuyenews/Beerus/network/http/commons"
 	"strings"
 )
 

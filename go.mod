@@ -1,3 +1,3 @@
-module github/yuyenews/Beerus
+module github.com/yuyenews/Beerus
 
 go 1.17

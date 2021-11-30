@@ -2,10 +2,10 @@ package http
 
 import (
 	"fmt"
-	"github/yuyenews/Beerus/application/web"
-	"github/yuyenews/Beerus/application/web/route"
-	"github/yuyenews/Beerus/commons/util"
-	"github/yuyenews/Beerus/network/http/commons"
+	"github.com/yuyenews/Beerus/application/web"
+	"github.com/yuyenews/Beerus/application/web/route"
+	"github.com/yuyenews/Beerus/commons/util"
+	"github.com/yuyenews/Beerus/network/http/commons"
 	"io/ioutil"
 	"net/http"
 	"strings"

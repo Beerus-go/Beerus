@@ -1,6 +1,6 @@
 package route
 
-import "github/yuyenews/Beerus/network/http/commons"
+import "github.com/yuyenews/Beerus/network/http/commons"
 
 // Store the map of the route
 var routeMap = make(map[string]func(req *commons.BeeRequest, res *commons.BeeResponse))

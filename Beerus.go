@@ -1,7 +1,7 @@
 package beerus
 
 import (
-	"github/yuyenews/Beerus/network/http"
+	"github.com/yuyenews/Beerus/network/http"
 	"strconv"
 )
 

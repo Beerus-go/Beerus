@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github/yuyenews/Beerus/commons"
+	"github.com/yuyenews/Beerus/commons"
 	"strings"
 )
 
