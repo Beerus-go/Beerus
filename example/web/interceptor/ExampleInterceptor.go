@@ -1,10 +1,10 @@
 package interceptor
 
 import (
-	"fmt"
 	"github.com/yuyenews/Beerus/application/web/params"
 	"github.com/yuyenews/Beerus/application/web/route"
 	"github.com/yuyenews/Beerus/network/http/commons"
+	"log"
 )
 
 func CreateInterceptor() {
@@ -14,6 +14,6 @@ func CreateInterceptor() {
 func loginInterceptorBefore(req *commons.BeeRequest, res *commons.BeeResponse) string {
 	res.SetHeader("abc", "hahahaha").SetHeader("hello", "word")
 
-	fmt.Println("exec interceptor")
+	log.Println("exec interceptor")
 	return params.SUCCESS
 }

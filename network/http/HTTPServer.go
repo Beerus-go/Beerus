@@ -1,12 +1,13 @@
 package http
 
 import (
-	"fmt"
 	"github.com/yuyenews/Beerus/application/web"
 	"github.com/yuyenews/Beerus/application/web/route"
 	"github.com/yuyenews/Beerus/commons/util"
 	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/yuyenews/Beerus/network/http/websocket"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -23,6 +24,11 @@ func StartHttpServer(port string) {
 
 // handler
 func handler(write http.ResponseWriter, request *http.Request) {
+
+	if isWebSocket(request) {
+		websocket.Upgrade(write, request)
+		return
+	}
 
 	var req = new(commons.BeeRequest)
 	var res = new(commons.BeeResponse)
@@ -50,7 +56,7 @@ func parsingJson(request *commons.BeeRequest) error {
 	if strings.ToUpper(request.Request.Method) != "GET" && commons.IsJSON(contentType) {
 		var result, error = ioutil.ReadAll(request.Request.Body)
 		if error != nil {
-			fmt.Print("Exception for parsing json parameters", error)
+			log.Print("Exception for parsing json parameters", error)
 			return error
 		}
 
@@ -69,4 +75,21 @@ func setRoutePath(request *commons.BeeRequest) {
 	}
 
 	request.RoutePath = url
+}
+
+// isWebSocket Is it a websocket
+func isWebSocket(request *http.Request) bool {
+	upgrade := request.Header.Get(commons.Upgrade)
+	connection := request.Header.Get(commons.Connection)
+	secKey := request.Header.Get(commons.SecWebsocketKey)
+
+	if upgrade == "" || connection == "" || secKey == "" {
+		return false
+	}
+
+	if strings.ToUpper(connection) != strings.ToUpper(commons.Upgrade) {
+		return false
+	}
+
+	return true
 }

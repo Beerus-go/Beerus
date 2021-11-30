@@ -2,10 +2,10 @@ package params
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/yuyenews/Beerus/commons"
 	"github.com/yuyenews/Beerus/commons/util"
 	"github.com/yuyenews/Beerus/network/http/commons"
+	"log"
 	"reflect"
 	"strconv"
 )
@@ -109,6 +109,6 @@ func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.
 // errorPrint
 func errorPrint(fieldName string, err error) {
 	if err != nil {
-		fmt.Println("field:" + fieldName + "Setting value Exception occurs, " + err.Error())
+		log.Println("field:" + fieldName + "Setting value Exception occurs, " + err.Error())
 	}
 }

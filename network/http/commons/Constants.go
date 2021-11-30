@@ -10,6 +10,18 @@ const (
 	ContentType2       = "content-type"
 	ContentDisposition = "Content-Disposition"
 	ErrorMsg           = "{\"code\":%s, \"msg\":\"%s\"}"
+	CarriageReturn     = "\r\n"
+)
+
+const (
+	Connection           = "Connection"
+	Upgrade              = "Upgrade"
+	SecWebsocketKey      = "Sec-WebSocket-Key"
+	SecWebsocketProtocol = "Sec-WebSocket-Protocol"
+	ResponseOnline       = "HTTP/1.1 101 Switching Protocols"
+
+	// SocketSecretKey 秘钥SocketKey加密秘钥
+	SocketSecretKey = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 )
 
 // ----------- Determine whether the Content-Type matches the requirements -----------
