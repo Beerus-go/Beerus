@@ -1,9 +1,9 @@
 package web
 
 import (
+	"github/yuyenews/Beerus/application/web/params"
+	"github/yuyenews/Beerus/application/web/route"
 	"github/yuyenews/Beerus/network/http/commons"
-	"github/yuyenews/Beerus/web/params"
-	"github/yuyenews/Beerus/web/route"
 	"strings"
 )
 
@@ -11,7 +11,7 @@ import (
 func ExecuteApi(request *commons.BeeRequest, response *commons.BeeResponse) {
 
 	method := request.Request.Method
-	routePath := getRoutePath(request)
+	routePath := request.RoutePath
 	function := route.GetRoute(routePath + "/" + strings.ToUpper(method))
 
 	if function == nil {
@@ -31,15 +31,4 @@ func ExecuteApi(request *commons.BeeRequest, response *commons.BeeResponse) {
 
 	// Execute the function on the route
 	function(request, response)
-}
-
-// getRoutePath Get the route path to request
-func getRoutePath(request *commons.BeeRequest) string {
-	url := request.Request.RequestURI
-	var lastIndex = strings.LastIndex(url, "?")
-	if lastIndex > -1 {
-		url = url[:lastIndex]
-	}
-
-	return url
 }

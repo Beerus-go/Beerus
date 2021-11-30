@@ -22,7 +22,7 @@ func GET(path string, function func(req *commons.BeeRequest, res *commons.BeeRes
 
 // POST Add a route for POST request method
 func POST(path string, function func(req *commons.BeeRequest, res *commons.BeeResponse)) {
-	AddRoute(path, "GET", function)
+	AddRoute(path, "POST", function)
 }
 
 // PUT Add a route for PUT request method

@@ -3,7 +3,6 @@ package commons
 import (
 	"fmt"
 	"github/yuyenews/Beerus/commons/util"
-	"mime/multipart"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -12,8 +11,9 @@ import (
 // BeeRequest ----------- Secondary wrapping over the request object, mainly to facilitate the acquisition of json passing parameters -----------
 // Secondary encapsulation of a part of the high-frequency use of the function, other functions can be taken from the Request inside
 type BeeRequest struct {
-	Request *http.Request
-	Json    string
+	Request   *http.Request
+	Json      string
+	RoutePath string
 }
 
 // FormValue Get request parameters
@@ -31,9 +31,24 @@ func (req BeeRequest) HeaderValues(key string) []string {
 	return req.Request.Header.Values(key)
 }
 
-// getFile Get request file
-func (req BeeRequest) getFile(key string) (multipart.File, *multipart.FileHeader, error) {
-	return req.Request.FormFile(key)
+// GetFile Get request file
+func (req BeeRequest) GetFile(key string) (*BeeFile, error) {
+	file, fileHeader, error := req.Request.FormFile(key)
+
+	var beeFile = new(BeeFile)
+	beeFile.File = file
+	beeFile.FileHeader = fileHeader
+
+	return beeFile, error
+}
+
+// ContentType get Content-Type
+func (req BeeRequest) ContentType() string {
+	contentType := req.HeaderValue(ContentType)
+	if contentType == "" {
+		contentType = req.HeaderValue(ContentType2)
+	}
+	return contentType
 }
 
 // BeeResponse ----------- Secondary wrapping of the response object, the response part is enhanced a bit, providing some high-frequency use of the function -----------

@@ -2,10 +2,10 @@ package http
 
 import (
 	"fmt"
+	"github/yuyenews/Beerus/application/web"
+	"github/yuyenews/Beerus/application/web/route"
 	"github/yuyenews/Beerus/commons/util"
 	"github/yuyenews/Beerus/network/http/commons"
-	"github/yuyenews/Beerus/web"
-	"github/yuyenews/Beerus/web/route"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -28,6 +28,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	var res = new(commons.BeeResponse)
 
 	req.Request = request
+	req.RoutePath = getRoutePath(req)
 	res.Response = write
 
 	var error = parsingJson(req)
@@ -43,10 +44,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 // parsingJson Parsing json parameters
 func parsingJson(request *commons.BeeRequest) error {
 
-	contentType := request.HeaderValue(commons.ContentType)
-	if contentType == "" {
-		contentType = request.HeaderValue(commons.ContentType2)
-	}
+	contentType := request.ContentType()
 
 	if strings.ToUpper(request.Request.Method) != "GET" && commons.IsJSON(contentType) {
 		var result, error = ioutil.ReadAll(request.Request.Body)
@@ -59,4 +57,15 @@ func parsingJson(request *commons.BeeRequest) error {
 	}
 
 	return nil
+}
+
+// getRoutePath Get the route path to request
+func getRoutePath(request *commons.BeeRequest) string {
+	url := request.Request.RequestURI
+	var lastIndex = strings.LastIndex(url, "?")
+	if lastIndex > -1 {
+		url = url[:lastIndex]
+	}
+
+	return url
 }
