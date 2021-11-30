@@ -47,7 +47,7 @@ func Verification(request *commons.BeeRequest, pointParamStruct interface{}, par
 		var min = fieldTag.Get(ValidKeyMin)
 		var reg = fieldTag.Get(ValidKeyReg)
 		var msg = fieldTag.Get(ValidKeyMsg)
-		var apis = fieldTag.Get(ValidKeyRoutes)
+		var routes = fieldTag.Get(ValidKeyRoutes)
 
 		if notNull == "" && reg == "" && max == "" && min == "" {
 			i++
@@ -55,10 +55,10 @@ func Verification(request *commons.BeeRequest, pointParamStruct interface{}, par
 		}
 
 		// Whether the route of this request is within the scope of this field check
-		if apis != "" {
+		if routes != "" {
 			var isContain = false
 
-			var apisArray = strings.Split(apis, ",")
+			var apisArray = strings.Split(routes, ",")
 			for _, apiPath := range apisArray {
 				if string_util.Match(requestPath, apiPath) {
 					isContain = true

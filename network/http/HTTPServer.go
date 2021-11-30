@@ -28,8 +28,9 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	var res = new(commons.BeeResponse)
 
 	req.Request = request
-	req.RoutePath = getRoutePath(req)
 	res.Response = write
+
+	setRoutePath(req)
 
 	var error = parsingJson(req)
 
@@ -59,13 +60,13 @@ func parsingJson(request *commons.BeeRequest) error {
 	return nil
 }
 
-// getRoutePath Get the route path to request
-func getRoutePath(request *commons.BeeRequest) string {
+// setRoutePath Set the route path to request
+func setRoutePath(request *commons.BeeRequest) {
 	url := request.Request.RequestURI
 	var lastIndex = strings.LastIndex(url, "?")
 	if lastIndex > -1 {
 		url = url[:lastIndex]
 	}
 
-	return url
+	request.RoutePath = url
 }
