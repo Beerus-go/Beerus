@@ -3,7 +3,7 @@ package websocket
 import (
 	"bytes"
 	"github.com/yuyenews/Beerus/application/websocket"
-	string_util "github.com/yuyenews/Beerus/commons/util"
+	"github.com/yuyenews/Beerus/commons/util"
 )
 
 // Processing TODO Parsing Package Text and Calling Business Processes
