@@ -86,6 +86,10 @@ func connProcessing(conn net.Conn, routePath string) {
 			break
 		}
 
+		if size == 0 {
+			continue
+		}
+
 		// Remove used data from the cache
 		if size == buf.Len() {
 			buf.Reset()

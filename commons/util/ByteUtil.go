@@ -75,3 +75,31 @@ func ByteIndexOf(source []byte, targetByte []byte) int {
 	}
 	return -1
 }
+
+func BytesToInt(b []byte, start int, length int) int {
+	sum := 0
+	end := start + length
+
+	i := start
+
+	for i < end {
+		n := int(b[i]) & 0xff
+		length--
+		n <<= length * 8
+		sum += n
+		i++
+	}
+	return sum
+}
+
+func IntToBytes(n int, length int) []byte {
+	b := make([]byte, length)
+
+	i := length
+
+	for i > 0 {
+		b[(i - 1)] = (byte)(n >> 8 * (length - i) & 0xFF)
+		i--
+	}
+	return b
+}
