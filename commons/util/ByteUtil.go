@@ -80,14 +80,12 @@ func BytesToInt(b []byte, start int, length int) int {
 	sum := 0
 	end := start + length
 
-	i := start
-
-	for i < end {
+	for i := start; i < end; i++ {
 		n := int(b[i]) & 0xff
 		length--
 		n <<= length * 8
 		sum += n
-		i++
+
 	}
 	return sum
 }
@@ -95,11 +93,9 @@ func BytesToInt(b []byte, start int, length int) int {
 func IntToBytes(n int, length int) []byte {
 	b := make([]byte, length)
 
-	i := length
-
-	for i > 0 {
+	for i := length; i > 0; i-- {
 		b[(i - 1)] = (byte)(n >> 8 * (length - i) & 0xFF)
-		i--
+
 	}
 	return b
 }

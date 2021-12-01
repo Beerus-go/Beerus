@@ -81,12 +81,12 @@ func readMessage(buffer *bytes.Buffer) (string, string, int) {
 func getLength(bytesData []byte, start int, size int) []byte {
 	index := 0
 	length := make([]byte, size)
-	i := start
-	for i < (start + size) {
+
+	for i := start; i < (start + size); i++ {
 		length[index] = bytesData[i]
 
 		index++
-		i++
+
 	}
 	return length
 }
