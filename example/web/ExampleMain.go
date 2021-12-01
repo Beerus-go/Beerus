@@ -8,6 +8,7 @@ import (
 
 func main() {
 	routes.CreateRoute()
+	routes.CreateWebSocketRoute()
 	interceptor.CreateInterceptor()
 
 	beerus.StartHttp(8080)

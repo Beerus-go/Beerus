@@ -25,11 +25,6 @@ func StartHttpServer(port string) {
 // handler
 func handler(write http.ResponseWriter, request *http.Request) {
 
-	if isWebSocket(request) {
-		websocket.Upgrade(write, request)
-		return
-	}
-
 	var req = new(commons.BeeRequest)
 	var res = new(commons.BeeResponse)
 
@@ -38,6 +33,13 @@ func handler(write http.ResponseWriter, request *http.Request) {
 
 	setRoutePath(req)
 
+	// If WebSocket, upgrade the protocol
+	if isWebSocket(req) {
+		websocket.UpgradeToWebSocket(write, req)
+		return
+	}
+
+	// Not WebSocket will handle http normally
 	var error = parsingJson(req)
 
 	if error != nil {
@@ -54,10 +56,10 @@ func parsingJson(request *commons.BeeRequest) error {
 	contentType := request.ContentType()
 
 	if strings.ToUpper(request.Request.Method) != "GET" && commons.IsJSON(contentType) {
-		var result, error = ioutil.ReadAll(request.Request.Body)
-		if error != nil {
-			log.Print("Exception for parsing json parameters", error)
-			return error
+		var result, err = ioutil.ReadAll(request.Request.Body)
+		if err != nil {
+			log.Print("Exception for parsing json parameters", err.Error())
+			return err
 		}
 
 		request.Json = string_util.BytesToString(result)
@@ -78,10 +80,10 @@ func setRoutePath(request *commons.BeeRequest) {
 }
 
 // isWebSocket Is it a websocket
-func isWebSocket(request *http.Request) bool {
-	upgrade := request.Header.Get(commons.Upgrade)
-	connection := request.Header.Get(commons.Connection)
-	secKey := request.Header.Get(commons.SecWebsocketKey)
+func isWebSocket(request *commons.BeeRequest) bool {
+	upgrade := request.HeaderValue(commons.Upgrade)
+	connection := request.HeaderValue(commons.Connection)
+	secKey := request.HeaderValue(commons.SecWebsocketKey)
 
 	if upgrade == "" || connection == "" || secKey == "" {
 		return false
