@@ -20,8 +20,7 @@ func onConnection(session *params.WebSocketSession, msg string) {
 
 func onMessage(session *params.WebSocketSession, msg string) {
 	println(msg + "-------------------------------")
-
-	session.SendString("我收到消息了")
+	session.SendString("I got the message.")
 }
 
 func onClose(session *params.WebSocketSession, msg string) {

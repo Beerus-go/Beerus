@@ -100,6 +100,45 @@ type DemoParam struct {
 }
 ```
 
+### WebSocket example
+
+CreateWebSocketRoute Creating websocket routes
+
+```go
+func CreateWebSocketRoute() {
+	route.AddWebSocketRoute("/ws/test", onConnection, onMessage, onClose)
+	route.AddWebSocketRoute("/ws/test2", onConnection, onMessage, onClose)
+}
+
+// In order to save time, only three functions are used below. In practice, you can configure a set of functions for each route
+
+func onConnection(session *params.WebSocketSession, msg string) {
+	session.SendString("connection success")
+}
+
+func onMessage(session *params.WebSocketSession, msg string) {
+	session.SendString("I got the message.")
+}
+
+func onClose(session *params.WebSocketSession, msg string) {
+    println(msg + "-------------------------------")
+}
+```
+
+Start Service
+
+```go
+func main() {
+    // Interceptors, routes, etc. Loading of data requires its own calls
+    routes.CreateRoute()
+	routes.CreateWebSocketRoute()
+	
+    // Listen the service and listen to port 8080
+    beerus.ListenHTTP(8080)
+}
+```
+
+
 ## License
 
 Beerus is [MIT licensed.](https://github.com/yuyenews/Beerus/blob/master/LICENSE)
