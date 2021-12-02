@@ -62,7 +62,7 @@ func parsingJson(request *commons.BeeRequest) error {
 			return err
 		}
 
-		request.Json = string_util.BytesToString(result)
+		request.Json = util.BytesToString(result)
 	}
 
 	return nil

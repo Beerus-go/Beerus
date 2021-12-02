@@ -2,91 +2,102 @@ package websocket
 
 import (
 	"bytes"
+	"errors"
 	"github.com/yuyenews/Beerus/application/websocket"
 	"github.com/yuyenews/Beerus/commons/util"
 )
 
-// Processing TODO Parsing Package Text and Calling Business Processes
-func Processing(buffer *bytes.Buffer, routePath string) (int, string) {
+const (
+	CLOSE   = "connection close"
+	READING = "reading"
+	BLANK   = "blank"
+)
 
-	message, isClose, size := readMessage(buffer)
+// Processing Parsing Package Text and Calling Business Processes
+func Processing(buffer *bytes.Buffer, readSizeCache int, routePath string) (int, error) {
 
-	if isClose != "" {
-		// When the connection is properly disconnected, the route is called for service processing
+	message, isClose, size := readMessage(buffer, readSizeCache)
+
+	// When the connection is properly disconnected, the route is called for service processing
+	if isClose != nil {
 		websocket.ExecuteClose(routePath)
-		return 0, "Connection close"
+		return 0, errors.New(CLOSE)
 	}
 
-	if message != "" {
-		// When a complete message is parsed, the route is invoked for service processing
+	// When a complete message is parsed, the route is invoked for service processing
+	if message != BLANK && message != READING {
 		websocket.ExecuteMessage(routePath, message)
-
-		return size, "ok"
+		return size, nil
 	}
 
-	return 0, "ok"
+	return 0, nil
 }
 
-func readMessage(buffer *bytes.Buffer) (string, string, int) {
+// readMessage Parsing messages
+func readMessage(buffer *bytes.Buffer, readSizeCache int) (string, error, int) {
 
 	bytesData := buffer.Bytes()
 
-	opcode := bytesData[0] & 0x0f
+	opcode := bytesData[0] & 15
 	if opcode == 8 {
-		return "", "close", 0
+		return BLANK, errors.New(CLOSE), 0
 	}
-	if len(bytesData) < 2 {
-		return "reading", "", 0
+	if readSizeCache < 2 {
+		return READING, nil, 0
 	}
 
 	payloadLength := int(bytesData[1] & 0x7f)
 	if payloadLength < 1 {
-		return "reading", "", 0
+		return READING, nil, 0
 	}
+	mask := bytesData[1] >> 7
 
 	maskStartIndex := 2
 
 	if payloadLength == 126 {
 		length := getLength(bytesData, 2, 2)
-		payloadLength = string_util.BytesToInt(length, 0, len(length))
+		payloadLength = util.BytesToInt(length, 0, len(length))
 		maskStartIndex = 4
 	} else if payloadLength == 127 {
 		length := getLength(bytesData, 2, 8)
-		payloadLength = string_util.BytesToInt(length, 0, len(length))
+		payloadLength = util.BytesToInt(length, 0, len(length))
 		maskStartIndex = 10
 	}
 
 	maskEndIndex := maskStartIndex + 4
 
-	if len(bytesData) < (payloadLength + maskEndIndex) {
-		return "reading", "", 0
+	if readSizeCache < (payloadLength + maskEndIndex) {
+		return READING, nil, 0
 	}
 
-	mask, _ := string_util.CopyOfRange(bytesData, maskStartIndex, maskEndIndex)
-	payloadData, _ := string_util.CopyOfRange(bytesData, maskEndIndex, payloadLength+maskEndIndex)
+	maskByte, errMsg := util.CopyOfRange(bytesData, maskStartIndex, maskEndIndex)
+	payloadData, errMsg2 := util.CopyOfRange(bytesData, maskEndIndex, payloadLength+maskEndIndex)
+
+	if errMsg != nil || errMsg2 != nil {
+		return BLANK, errors.New(CLOSE), 0
+	}
 
 	if len(payloadData) < payloadLength {
-		return "reading", "", 0
+		return READING, nil, 0
 	}
 
-	i := 0
-	for i < len(payloadData) {
-		payloadData[i] = payloadData[i] ^ mask[i%4]
-		i++
+	if mask == 1 {
+		for i := 0; i < len(payloadData); i++ {
+			payloadData[i] = payloadData[i] ^ maskByte[i%4]
+		}
 	}
 
-	return string_util.BytesToString(payloadData), "", maskEndIndex + len(payloadData)
+	return util.BytesToString(payloadData), nil, maskEndIndex + len(payloadData)
 }
 
+// getLength Parsing out the length of the message body from the message
 func getLength(bytesData []byte, start int, size int) []byte {
 	index := 0
 	length := make([]byte, size)
 
 	for i := start; i < (start + size); i++ {
 		length[index] = bytesData[i]
-
 		index++
-
 	}
 	return length
 }

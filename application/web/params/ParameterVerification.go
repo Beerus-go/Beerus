@@ -28,16 +28,14 @@ func Verification(request *commons.BeeRequest, pointParamStruct interface{}, par
 	var paramElem = reflect.ValueOf(pointParamStruct).Elem()
 	var requestPath = request.RoutePath
 
-	i := 0
 	fieldNum := paramType.NumField()
-	for i < fieldNum {
+	for i := 0; i < fieldNum; i++ {
 		var field = paramType.Field(i)
 		var fieldName = field.Name
 		var fieldType = field.Type.Name()
 		var fieldTag = field.Tag
 
 		if fieldTag == "" {
-			i++
 			continue
 		}
 
@@ -50,7 +48,6 @@ func Verification(request *commons.BeeRequest, pointParamStruct interface{}, par
 		var routes = fieldTag.Get(ValidKeyRoutes)
 
 		if notNull == "" && reg == "" && max == "" && min == "" {
-			i++
 			continue
 		}
 
@@ -60,13 +57,12 @@ func Verification(request *commons.BeeRequest, pointParamStruct interface{}, par
 
 			var apisArray = strings.Split(routes, ",")
 			for _, apiPath := range apisArray {
-				if string_util.Match(requestPath, apiPath) {
+				if util.Match(requestPath, apiPath) {
 					isContain = true
 				}
 			}
 
 			if isContain == false {
-				i++
 				continue
 			}
 		}
@@ -90,8 +86,6 @@ func Verification(request *commons.BeeRequest, pointParamStruct interface{}, par
 		if result != SUCCESS {
 			return result
 		}
-
-		i++
 	}
 
 	return SUCCESS

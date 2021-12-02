@@ -12,6 +12,6 @@ func StartHttp(port int) {
 }
 
 // StartUDP Start an udp service
-func StartUDP(function func(data []byte), port int) {
-	udp.StartUdpServer(function, port)
+func StartUDP(handler func(data []byte), separator []byte, port int) {
+	udp.StartUdpServer(handler, separator, port)
 }

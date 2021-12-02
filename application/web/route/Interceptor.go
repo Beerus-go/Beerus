@@ -40,7 +40,7 @@ func ReloadMatchToUrl() {
 			last := strings.LastIndex(routePath, "/")
 			routePath = routePath[:last]
 
-			if string_util.Match(routePath, key) == false {
+			if util.Match(routePath, key) == false {
 				continue
 			}
 

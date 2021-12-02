@@ -8,29 +8,29 @@ import (
 )
 
 // SessionMap Save each linked session
-var SessionMap = make(map[string]*params.WebSocketSession)
+var sessionMap = make(map[string]*params.WebSocketSession)
 
 // ExecuteConnection Triggers the onConnection function inside the route
 func ExecuteConnection(routePath string, conn net.Conn) {
 	session := new(params.WebSocketSession)
 	session.Connection = conn
-	session.Id = string_util.UniqueId()
-	SessionMap[routePath] = session
+	session.Id = util.UniqueId()
+	sessionMap[routePath] = session
 
 	route.GetWebSocketRoute(routePath, route.OnConnection)(session, "The client is already connected")
 }
 
 // ExecuteMessage Triggers the onMessage function inside the route
 func ExecuteMessage(routePath string, message string) {
-	route.GetWebSocketRoute(routePath, route.OnMessage)(SessionMap[routePath], message)
+	route.GetWebSocketRoute(routePath, route.OnMessage)(sessionMap[routePath], message)
 }
 
 // ExecuteClose Triggers the onClose function inside the route
 func ExecuteClose(routePath string) {
-	if SessionMap[routePath] == nil {
+	if sessionMap[routePath] == nil {
 		return
 	}
 
-	delete(SessionMap, routePath)
-	route.GetWebSocketRoute(routePath, route.OnClose)(SessionMap[routePath], "The client is disconnected")
+	delete(sessionMap, routePath)
+	route.GetWebSocketRoute(routePath, route.OnClose)(sessionMap[routePath], "The client is disconnected")
 }

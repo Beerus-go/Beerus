@@ -8,7 +8,7 @@ import (
 )
 
 func CreateInterceptor() {
-	route.AddInterceptor("*", loginInterceptorBefore)
+	route.AddInterceptor("/example/*", loginInterceptorBefore)
 }
 
 func loginInterceptorBefore(req *commons.BeeRequest, res *commons.BeeResponse) string {

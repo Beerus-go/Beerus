@@ -1,4 +1,4 @@
-package string_util
+package util
 
 import (
 	"regexp"
@@ -31,7 +31,7 @@ func Match(source string, reg string) bool {
 	}
 
 	reg = strings.ReplaceAll(reg, "*", "([a-zA-Z1-9/]+)")
-	regular := regexp.MustCompile(reg)
+	regular := regexp.MustCompile("^" + reg + "$")
 
 	return regular.MatchString(source)
 }

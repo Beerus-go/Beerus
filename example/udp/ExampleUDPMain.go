@@ -1,11 +1,15 @@
 package main
 
-import beerus "github.com/yuyenews/Beerus"
+import (
+	"github.com/yuyenews/Beerus"
+	"github.com/yuyenews/Beerus/commons/util"
+)
 
 func main() {
 	beerus.StartUDP(func(data []byte) {
 
 		// data is the data you received
+		println(util.BytesToString(data))
 
-	}, 8080)
+	}, []byte("|"), 8080)
 }

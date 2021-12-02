@@ -65,19 +65,19 @@ func (res BeeResponse) SetHeader(key string, value string) BeeResponse {
 // SendJson Send json string to client
 func (res BeeResponse) SendJson(value string) {
 	res.SetHeader(ContentType, "application/json;charset=UTF-8")
-	res.Response.Write(string_util.StrToBytes(value))
+	res.Response.Write(util.StrToBytes(value))
 }
 
 // SendText Send text to client
 func (res BeeResponse) SendText(value string) {
 	res.SetHeader(ContentType, "text/plain;charset=UTF-8")
-	res.Response.Write(string_util.StrToBytes(value))
+	res.Response.Write(util.StrToBytes(value))
 }
 
 // SendHtml Send html string to client
 func (res BeeResponse) SendHtml(value string) {
 	res.SetHeader(ContentType, "text/html;charset=UTF-8")
-	res.Response.Write(string_util.StrToBytes(value))
+	res.Response.Write(util.StrToBytes(value))
 }
 
 // SendStream Send file to client
@@ -89,7 +89,7 @@ func (res BeeResponse) SendStream(fileName string, file []byte) {
 
 // SendData Sending other custom ContentType data to the client
 func (res BeeResponse) SendData(value string) {
-	res.Response.Write(string_util.StrToBytes(value))
+	res.Response.Write(util.StrToBytes(value))
 }
 
 // SendErrorMsg Return error messages in json format

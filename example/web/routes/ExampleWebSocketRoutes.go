@@ -15,10 +15,13 @@ func CreateWebSocketRoute() {
 
 func onConnection(session *params.WebSocketSession, msg string) {
 	println(msg + "-------------------------------")
+	session.SendString("connection success")
 }
 
 func onMessage(session *params.WebSocketSession, msg string) {
 	println(msg + "-------------------------------")
+
+	session.SendString("我收到消息了")
 }
 
 func onClose(session *params.WebSocketSession, msg string) {

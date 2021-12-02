@@ -1,37 +1,35 @@
-package string_util
+package util
+
+import "errors"
 
 // SubBytes Extract the byte[] between the specified coordinates
-func SubBytes(source []byte, startIndex int, endIndex int) ([]byte, string) {
+func SubBytes(source []byte, startIndex int, endIndex int) ([]byte, error) {
 	if startIndex > endIndex {
-		return nil, "The start coordinate cannot be greater than the end coordinate"
+		return nil, errors.New("the start coordinate cannot be greater than the end coordinate")
 	}
 
 	if (len(source) - 1) < startIndex {
-		return nil, "Start coordinates are out of length"
+		return nil, errors.New("start coordinates are out of length")
 	}
 
 	if len(source) < (endIndex - startIndex) {
-		return nil, "The length to be Extract is already greater than the data being Extract"
+		return nil, errors.New("the length to be Extract is already greater than the data being Extract")
 	}
 
 	length := endIndex - startIndex
-
 	bytes := make([]byte, length)
 
-	index := 0
 	i := startIndex
-
-	for index < length {
+	for index := 0; index < length; index++ {
 		if i > (len(source) - 1) {
 			break
 		}
 
 		bytes[index] = source[i]
 		i++
-		index++
 	}
 
-	return bytes, "ok"
+	return bytes, nil
 }
 
 // ByteIndexOf Find the coordinates of the corresponding data from byte[]
@@ -48,8 +46,7 @@ func ByteIndexOf(source []byte, targetByte []byte) int {
 			return -1
 		}
 
-		j := startIndex
-		for j < endIndex {
+		for j := startIndex; j < endIndex; j++ {
 			if index > len(targetByte)-1 {
 				return -1
 			}
@@ -66,7 +63,6 @@ func ByteIndexOf(source []byte, targetByte []byte) int {
 				break
 			}
 			index++
-			j++
 		}
 
 		if exist {
@@ -76,6 +72,7 @@ func ByteIndexOf(source []byte, targetByte []byte) int {
 	return -1
 }
 
+// BytesToInt byte[] to int
 func BytesToInt(b []byte, start int, length int) int {
 	sum := 0
 	end := start + length
@@ -85,17 +82,16 @@ func BytesToInt(b []byte, start int, length int) int {
 		length--
 		n <<= length * 8
 		sum += n
-
 	}
 	return sum
 }
 
+// IntToBytes int to byte[]
 func IntToBytes(n int, length int) []byte {
 	b := make([]byte, length)
 
 	for i := length; i > 0; i-- {
 		b[(i - 1)] = (byte)(n >> 8 * (length - i) & 0xFF)
-
 	}
 	return b
 }

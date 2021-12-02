@@ -1,6 +1,7 @@
 package params
 
 import (
+	"errors"
 	"github.com/yuyenews/Beerus/commons/util"
 	"net"
 )
@@ -13,11 +14,11 @@ type WebSocketSession struct {
 
 // SendString String message
 func (ws WebSocketSession) SendString(msg string) {
-	ws.Send(string_util.StrToBytes(msg))
+	ws.Send(util.StrToBytes(msg))
 }
 
-// Send TODO byte[] message
-func (ws WebSocketSession) Send(msg []byte) string {
+// Send byte[] message
+func (ws WebSocketSession) Send(msg []byte) error {
 	startIndex := 2
 	var boardCastData []byte
 
@@ -25,24 +26,25 @@ func (ws WebSocketSession) Send(msg []byte) string {
 		boardCastData = make([]byte, 2+len(msg))
 		boardCastData[0] = 0x81
 		boardCastData[1] = byte(len(msg))
-
 	} else if len(msg) >= 126 && len(msg) < 65535 {
 		boardCastData = make([]byte, 4+len(msg))
-		bytes := string_util.IntToBytes(len(msg), 2)
+		bytes := util.IntToBytes(len(msg), 2)
 		boardCastData[0] = 0x81
 		boardCastData[1] = 126
 		boardCastData[2] = bytes[0]
 		boardCastData[3] = bytes[1]
 		startIndex = 4
 	} else {
-		return "最大支持的消息长度为65534个字节"
+		return errors.New("maximum supported message length is 65534 bytes")
 	}
 
-	//System.arraycopy(message, 0, boardCastData, startIndex, message.length)
-
-	string_util.ArrayCopy(msg, 0, boardCastData, startIndex, len(msg))
+	index := 0
+	for i := startIndex; i < len(boardCastData); i++ {
+		boardCastData[i] = msg[index]
+		index++
+	}
 
 	ws.Connection.Write(boardCastData)
 
-	return ""
+	return nil
 }

@@ -16,18 +16,16 @@ func ToStruct(request *commons.BeeRequest, pointParamStruct interface{}, paramSt
 	contentType := request.ContentType()
 
 	if commons.IsJSON(contentType) {
-		json.Unmarshal(string_util.StrToBytes(request.Json), pointParamStruct)
+		json.Unmarshal(util.StrToBytes(request.Json), pointParamStruct)
 		return
 	}
 
 	var paramType = reflect.TypeOf(paramStruct)
 	var paramElem = reflect.ValueOf(pointParamStruct).Elem()
 
-	i := 0
 	fieldNum := paramType.NumField()
-	for i < fieldNum {
+	for i := 0; i < fieldNum; i++ {
 		setValue(paramType, paramElem, request, i)
-		i++
 	}
 }
 

@@ -1,43 +1,82 @@
 package udp
 
 import (
-	"fmt"
+	"bytes"
+	"github.com/yuyenews/Beerus/commons/util"
 	"log"
 	"net"
 )
 
 // StartUdpServer Start an udp service
-func StartUdpServer(function func(data []byte), port int) {
+func StartUdpServer(handler func(data []byte), separator []byte, port int) {
+	if separator == nil || len(separator) <= 0 {
+		log.Println("The separator must not be empty")
+		return
+	}
 
-	// 监听UDP服务
 	udpConn, err := net.ListenUDP("udp", &net.UDPAddr{
 		IP:   net.IPv4(0, 0, 0, 0),
 		Port: port,
 	})
 
 	if err != nil {
-		log.Fatal("Listen failed,", err)
+		log.Println("Listen failed,", err)
 		return
 	}
 
-	// 循环读取消息
+	udpConnection(udpConn, separator, handler)
+}
+
+// udpConnection Handling UDP connections
+func udpConnection(conn *net.UDPConn, separator []byte, handler func(data []byte)) {
+	defer conn.Close()
+
+	buf := new(bytes.Buffer)
+	readSizeCache := 0
 	for {
-		var data [1024]byte
-		n, addr, err := udpConn.ReadFromUDP(data[:])
+		var data = make([]byte, 1024)
+		ln, addr, err := conn.ReadFromUDP(data)
 
 		if err != nil {
 			log.Printf("Read from udp server:%s failed,err:%s", addr, err)
 			break
 		}
-		go func() {
-			// 返回数据
-			fmt.Printf("Addr:%s,data:%v count:%d \n", addr, string(data[:n]), n)
 
-			_, err := udpConn.WriteToUDP([]byte("msg recived."), addr)
-			if err != nil {
-				fmt.Println("write to udp server failed,err:", err)
+		if ln <= 0 {
+			continue
+		}
+
+		readSizeCache += ln
+		buf.Write(data)
+
+		separatorIndex := util.ByteIndexOf(buf.Bytes(), separator)
+
+		if separatorIndex <= 0 {
+			continue
+		}
+
+		message, errMsg := util.SubBytes(buf.Bytes(), 0, separatorIndex)
+
+		if errMsg != nil {
+			log.Printf("Read from udp server:%s failed,err:%s", addr, errMsg)
+			break
+		}
+
+		handler(message)
+
+		processedLength := len(message) + len(separator)
+
+		if processedLength == readSizeCache {
+			buf.Reset()
+			readSizeCache = 0
+		} else {
+			remaining, errorMsg := util.CopyOfRange(buf.Bytes(), processedLength, readSizeCache)
+			if errorMsg != nil {
+				log.Printf("Read from udp server:%s failed,err:%s", addr, errMsg)
+				break
 			}
-		}()
+			buf = bytes.NewBuffer(remaining)
+			readSizeCache = readSizeCache - processedLength
+		}
 	}
-
 }

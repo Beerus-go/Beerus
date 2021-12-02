@@ -1,22 +1,21 @@
-package string_util
+package util
 
-func CopyOfRange(src []byte, srcOffset int, size int) ([]byte, string) {
+import "errors"
+
+// CopyOfRange Copy the data of the specified range in the array
+func CopyOfRange(src []byte, srcOffset int, size int) ([]byte, error) {
 	srcLen := len(src)
 
 	if srcOffset > srcLen || size > srcLen {
-		return nil, "Source buffer Index out of range"
+		return nil, errors.New("source buffer Index out of range")
 	}
 
 	dst := make([]byte, size-srcOffset)
 
 	index := 0
 	for i := srcOffset; i < size; i++ {
-		dst[index] = src[srcOffset]
+		dst[index] = src[i]
 		index++
 	}
-	return dst, ""
-}
-
-func ArrayCopy(src []byte, srcOffset int, dst []byte, start int, size int) []byte {
-	return nil
+	return dst, nil
 }
