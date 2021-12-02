@@ -141,4 +141,4 @@ func main() {
 
 ## License
 
-Beerus is [MIT licensed.](https://github.com/yuyenews/Beerus/blob/master/LICENSE)
+Beerus is [MIT licensed](https://github.com/yuyenews/Beerus/blob/master/LICENSE)
