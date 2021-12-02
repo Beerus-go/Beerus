@@ -13,6 +13,6 @@ func main() {
 	routes.CreateWebSocketRoute()
 	interceptor.CreateInterceptor()
 
-	// Start the service and listen to port 8080
+	// Listen the service and listen to port 8080
 	beerus.ListenHTTP(8080)
 }
