@@ -12,7 +12,7 @@ func CreateInterceptor() {
 }
 
 func loginInterceptorBefore(req *commons.BeeRequest, res *commons.BeeResponse) string {
-	res.SetHeader("abc", "hahahaha").SetHeader("hello", "word")
+	res.SetHeader("hello", "hello word").SetHeader("hello2", "word2")
 
 	log.Println("exec interceptor")
 	return params.SUCCESS
