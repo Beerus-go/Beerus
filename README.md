@@ -21,11 +21,11 @@ it is easy to extract parameters from the request into the structure and automat
 
 ## Examples
 
-### HTTP
+### HTTP example
+
+Create a function to manage the routing configuration
 
 ```go
-
-// Create a function to manage the routing configuration
 func CreateRoute() {
     // Example of parameter conversion to struct and parameter checksum
     route.POST("/example/post", func (req *commons.BeeRequest, res *commons.BeeResponse) {
@@ -33,8 +33,11 @@ func CreateRoute() {
         res.SendJson(`{"msg":"SUCCESS"}`)
     })
 }
+```
 
-// Start Service
+Start Service
+
+```go
 func main() {
     // Interceptors, routes, etc. Loading of data requires its own calls
     routes.CreateRoute()
@@ -42,8 +45,11 @@ func main() {
     // Listen the service and listen to port 8080
     beerus.ListenHTTP(8080)
 }
+```
 
 // If you want to put the parameters inside struct and complete the parameter checks
+
+```go
 func CreateRoute() {
     // Example of parameter conversion to struct and parameter checksum
     route.POST("/example/post", func (req *commons.BeeRequest, res *commons.BeeResponse) {
