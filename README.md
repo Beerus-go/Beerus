@@ -27,9 +27,15 @@ Create a function to manage the routing configuration
 
 ```go
 func CreateRoute() {
-    // Example of parameter conversion to struct and parameter checksum
+	// post route example
     route.POST("/example/post", func (req *commons.BeeRequest, res *commons.BeeResponse) {
         
+        res.SendJson(`{"msg":"SUCCESS"}`)
+    })
+
+    // get route example
+    route.GET("/example/get", func (req *commons.BeeRequest, res *commons.BeeResponse) {
+    
         res.SendJson(`{"msg":"SUCCESS"}`)
     })
 }
@@ -47,7 +53,7 @@ func main() {
 }
 ```
 
-// If you want to put the parameters inside struct and complete the parameter checks
+If you want to put the parameters inside struct and complete the parameter checks
 
 ```go
 func CreateRoute() {
@@ -85,10 +91,7 @@ type DemoParam struct {
     // the name of the field must be exactly the same as the name of the requested parameter, and is case-sensitive
     TestStringReception  string  `notnull:"true" msg:"TestStringReception不可以为空" routes:"/example/put"`
     TestIntReception     int     `max:"123" min:"32" msg:"TestIntReception取值范围必须在32 - 123之间" routes:"/example/post"`
-    TestInt64Reception   int64   `max:"123" min:"32" msg:"TestInt64Reception取值范围必须在32 - 123之间"`
     TestUintReception    uint    `max:"123" min:"32" msg:"TestUintReception取值范围必须在32 - 123之间"`
-    TestUint32Reception  uint32  `max:"123" min:"32" msg:"TTestUint32Reception取值范围必须在32 - 123之间"`
-    TestUint64Reception  uint64  `max:"123" min:"32" msg:"TestUint64Reception取值范围必须在32 - 123之间"`
     TestFloatReception   float32 `max:"123" min:"32" msg:"TestFloatReception取值范围必须在32 - 123之间"`
     TestBoolReception    bool
     TestBeeFileReception commons.BeeFile
