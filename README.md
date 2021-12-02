@@ -130,8 +130,8 @@ Start Service
 func main() {
     // Interceptors, routes, etc. Loading of data requires its own calls
     routes.CreateRoute()
-	routes.CreateWebSocketRoute()
-	
+    routes.CreateWebSocketRoute()
+    
     // Listen the service and listen to port 8080
     beerus.ListenHTTP(8080)
 }
