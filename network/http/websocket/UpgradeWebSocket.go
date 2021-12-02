@@ -118,6 +118,9 @@ func connProcessing(conn net.Conn, routePath string) {
 			}
 			buf = bytes.NewBuffer(remaining)
 			readSizeCache = readSizeCache - size
+			if readSizeCache < 0 {
+				readSizeCache = 0
+			}
 		}
 	}
 }

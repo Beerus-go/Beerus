@@ -77,6 +77,9 @@ func udpConnection(conn *net.UDPConn, separator []byte, handler func(data []byte
 			}
 			buf = bytes.NewBuffer(remaining)
 			readSizeCache = readSizeCache - processedLength
+			if readSizeCache < 0 {
+				readSizeCache = 0
+			}
 		}
 	}
 }
