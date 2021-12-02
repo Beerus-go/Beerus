@@ -14,5 +14,5 @@ func main() {
 	interceptor.CreateInterceptor()
 
 	// Start the service and listen to port 8080
-	beerus.StartHttp(8080)
+	beerus.ListenHTTP(8080)
 }

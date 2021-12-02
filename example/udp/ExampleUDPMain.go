@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	beerus.StartUDP(func(data []byte) {
+	beerus.ListenUDP(func(data []byte) {
 
 		// data is the data you received
 		println(util.BytesToString(data))

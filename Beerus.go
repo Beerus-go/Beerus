@@ -6,12 +6,12 @@ import (
 	"strconv"
 )
 
-// StartHttp Start an udp service
-func StartHttp(port int) {
+// ListenHTTP Start an udp service
+func ListenHTTP(port int) {
 	http.StartHttpServer(strconv.Itoa(port))
 }
 
-// StartUDP Start an udp service
-func StartUDP(handler func(data []byte), separator []byte, port int) {
+// ListenUDP Start an udp service
+func ListenUDP(handler func(data []byte), separator []byte, port int) {
 	udp.StartUdpServer(handler, separator, port)
 }
