@@ -20,7 +20,7 @@ const (
 	SecWebsocketProtocol = "Sec-WebSocket-Protocol"
 	ResponseOnline       = "HTTP/1.1 101 Switching Protocols"
 
-	// SocketSecretKey 秘钥SocketKey加密秘钥
+	// SocketSecretKey SecretKey encryption secret key
 	SocketSecretKey = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 )
 

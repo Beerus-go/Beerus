@@ -7,13 +7,12 @@ import (
 )
 
 func main() {
+
+	// Interceptors, routes, etc. Loading of data requires its own calls
 	routes.CreateRoute()
 	routes.CreateWebSocketRoute()
 	interceptor.CreateInterceptor()
 
+	// Start the service and listen to port 8080
 	beerus.StartHttp(8080)
-
-	//println(string_util.Match("/api/posts", "/*/post"))
-	//string_util.Match("/api/post", "/api/post")
-	//string_util.Match("/api/post", "/api/*ost")
 }
