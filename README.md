@@ -59,7 +59,7 @@ If you want to put the parameters inside struct and complete the parameter check
 func CreateRoute() {
     // Example of parameter conversion to struct and parameter checksum
     route.POST("/example/post", func (req *commons.BeeRequest, res *commons.BeeResponse) {
-		param := DemoParam{}
+        param := DemoParam{}
         
         // Extraction parameters, Generally used in scenarios where verification is not required or you want to verify manually
         params.ToStruct(req, &param, param)
@@ -70,16 +70,16 @@ func CreateRoute() {
             res.SendErrorMsg(1128, result)
             return
         }
-
+        
         // You can also convert + validate the parameters in one step
-		// Extraction of parameters + validation
-		var result = params.ToStructAndVerification(req, &param, param)
+        // Extraction of parameters + validation
+        var result = params.ToStructAndVerification(req, &param, param)
         if result != params.SUCCESS {
             res.SendErrorMsg(1128, result)
             return
         }
-		
-		
+        
+        
         res.SendJson(`{"msg":"SUCCESS"}`)
     })
 }
