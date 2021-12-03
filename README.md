@@ -88,10 +88,10 @@ func CreateRoute() {
 type DemoParam struct {
     // You can customize any field
     // the name of the field must be exactly the same as the name of the requested parameter, and is case-sensitive
-    TestStringReception  string  `notnull:"true" msg:"TestStringReception不可以为空" routes:"/example/put"`
-    TestIntReception     int     `max:"123" min:"32" msg:"TestIntReception取值范围必须在32 - 123之间" routes:"/example/post"`
-    TestUintReception    uint    `max:"123" min:"32" msg:"TestUintReception取值范围必须在32 - 123之间"`
-    TestFloatReception   float32 `max:"123" min:"32" msg:"TestFloatReception取值范围必须在32 - 123之间"`
+    TestStringReception  string  `notnull:"true" msg:"TestStringReception Cannot be empty" routes:"/example/put"`
+    TestIntReception     int     `max:"123" min:"32" msg:"TestIntReception The value range must be between 32 - 123" routes:"/example/post"`
+    TestUintReception    uint    `max:"123" min:"32" msg:"TestUintReception The value range must be between 32 - 123"`
+    TestFloatReception   float32 `max:"123" min:"32" msg:"TestFloatReception The value range must be between 32 - 123"`
     TestBoolReception    bool
     TestBeeFileReception commons.BeeFile
     
