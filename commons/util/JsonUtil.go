@@ -6,20 +6,21 @@ import (
 )
 
 // ToJSONString Structs to json strings
-func ToJSONString(stc interface{}) string {
+func ToJSONString(stc interface{}) (string, error) {
 	jsonString, err := json.Marshal(stc)
 	if err != nil {
 		log.Println(err)
-		return ""
+		return "", err
 	}
 
-	return BytesToString(jsonString)
+	return BytesToString(jsonString), nil
 }
 
 // ParseStruct Json string to struct
-func ParseStruct(jsonString string, result interface{}) {
+func ParseStruct(jsonString string, result interface{}) error {
 	err := json.Unmarshal(StrToBytes(jsonString), result)
 	if err != nil {
-		log.Println(err)
+		return err
 	}
+	return nil
 }
