@@ -18,7 +18,7 @@ import (
 func UpgradeToWebSocket(write http.ResponseWriter, request *commons.BeeRequest) {
 
 	// Does routing exist
-	if route.Exist(request.RoutePath) == false {
+	if route.WebSocketRouteExist(request.RoutePath) == false {
 		log.Println("WebSocket route does not exist, connection failed")
 		return
 	}

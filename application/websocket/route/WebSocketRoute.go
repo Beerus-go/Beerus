@@ -31,8 +31,8 @@ func GetWebSocketRoute(routePath string, funcName string) func(session *params.W
 	return funcMap[funcName]
 }
 
-// Exist Does routing exist
-func Exist(routePath string) bool {
+// WebSocketRouteExist Does routing exist
+func WebSocketRouteExist(routePath string) bool {
 	funcMap := webSocketRouteMap[routePath]
 
 	if funcMap == nil || len(funcMap) <= 0 {
