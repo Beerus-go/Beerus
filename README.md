@@ -93,6 +93,7 @@ type DemoParam struct {
     TestUintReception    uint    `max:"123" min:"32" msg:"TestUintReception The value range must be between 32 - 123"`
     TestFloatReception   float32 `max:"123" min:"32" msg:"TestFloatReception The value range must be between 32 - 123"`
     TestBoolReception    bool
+    TestStringRegReception string `reg:"^[a-z]+$" msg:"TestStringRegReception Does not meet the regular"`
     TestBeeFileReception commons.BeeFile
     
     TestJsonReception []string

@@ -77,15 +77,16 @@ func CreateRoute() {
 type DemoParam struct {
 	// You can customize any field
 	// the name of the field must be exactly the same as the name of the requested parameter, and is case-sensitive
-	TestStringReception  string  `notnull:"true" msg:"TestStringReception Cannot be empty" routes:"/example/put"`
-	TestIntReception     int     `max:"123" min:"32" msg:"TestIntReception The value range must be between 32 - 123" routes:"/example/post"`
-	TestInt64Reception   int64   `max:"123" min:"32" msg:"TestInt64Reception The value range must be between 32 - 123"`
-	TestUintReception    uint    `max:"123" min:"32" msg:"TestUintReception The value range must be between 32 - 123"`
-	TestUint32Reception  uint32  `max:"123" min:"32" msg:"TTestUint32Reception The value range must be between 32 - 123"`
-	TestUint64Reception  uint64  `max:"123" min:"32" msg:"TestUint64Reception The value range must be between 32 - 123"`
-	TestFloatReception   float32 `max:"123" min:"32" msg:"TestFloatReception The value range must be between 32 - 123"`
-	TestBoolReception    bool
-	TestBeeFileReception commons.BeeFile
+	TestStringReception    string  `notnull:"true" msg:"TestStringReception Cannot be empty" routes:"/example/put"`
+	TestIntReception       int     `max:"123" min:"32" msg:"TestIntReception The value range must be between 32 - 123" routes:"/example/post"`
+	TestInt64Reception     int64   `max:"123" min:"32" msg:"TestInt64Reception The value range must be between 32 - 123"`
+	TestUintReception      uint    `max:"123" min:"32" msg:"TestUintReception The value range must be between 32 - 123"`
+	TestUint32Reception    uint32  `max:"123" min:"32" msg:"TTestUint32Reception The value range must be between 32 - 123"`
+	TestUint64Reception    uint64  `max:"123" min:"32" msg:"TestUint64Reception The value range must be between 32 - 123"`
+	TestFloatReception     float32 `max:"123" min:"32" msg:"TestFloatReception The value range must be between 32 - 123"`
+	TestStringRegReception string  `reg:"^[a-z]+$" msg:"TestStringRegReception Does not meet the regular"`
+	TestBoolReception      bool
+	TestBeeFileReception   commons.BeeFile
 
 	TestJsonReception []string
 }
