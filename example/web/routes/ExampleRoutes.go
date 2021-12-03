@@ -27,7 +27,7 @@ func CreateRoute() {
 		params.ToStruct(req, &param, param)
 
 		// Separate validation of data in struct, this feature can be used independently in any case and is not limited to the routing layer.
-		var result = params.Verification(req, &param, param)
+		var result = params.Validation(req, &param, param)
 		if result != params.SUCCESS {
 			res.SendErrorMsg(1128, result)
 			return
@@ -53,7 +53,7 @@ func CreateRoute() {
 		param := DemoParam{}
 
 		// Extraction of parameters + validation
-		var result = params.ToStructAndVerification(req, &param, param)
+		var result = params.ToStructAndValidation(req, &param, param)
 
 		if result != params.SUCCESS {
 			res.SendErrorMsg(1128, result)

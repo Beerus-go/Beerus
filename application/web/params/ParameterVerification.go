@@ -22,8 +22,8 @@ const (
 	ValidKeyMsg     = "msg"
 )
 
-// Verification Checking the parameters of the struct
-func Verification(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
+// Validation Checking the parameters of the struct
+func Validation(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
 	var paramType = reflect.TypeOf(paramStruct)
 	var paramElem = reflect.ValueOf(pointParamStruct).Elem()
 	var requestPath = request.RoutePath

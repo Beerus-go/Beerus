@@ -29,10 +29,10 @@ func ToStruct(request *commons.BeeRequest, pointParamStruct interface{}, paramSt
 	}
 }
 
-// ToStructAndVerification Take the parameters out, wrap them in a struct and check the parameters
-func ToStructAndVerification(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
+// ToStructAndValidation Take the parameters out, wrap them in a struct and check the parameters
+func ToStructAndValidation(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
 	ToStruct(request, pointParamStruct, paramStruct)
-	var result = Verification(request, pointParamStruct, paramStruct)
+	var result = Validation(request, pointParamStruct, paramStruct)
 	return result
 }
 
