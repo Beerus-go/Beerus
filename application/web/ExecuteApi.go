@@ -12,9 +12,9 @@ func ExecuteApi(request *commons.BeeRequest, response *commons.BeeResponse) {
 
 	method := request.Request.Method
 	routePath := request.RoutePath
-	function := route.GetRoute(routePath + "/" + strings.ToUpper(method))
+	routeFunction := route.GetRoute(routePath + "/" + strings.ToUpper(method))
 
-	if function == nil {
+	if routeFunction == nil {
 		response.SendErrorMsg(400, "This route does not exist, please check if the route path and request method are correct")
 		return
 	}
@@ -29,6 +29,6 @@ func ExecuteApi(request *commons.BeeRequest, response *commons.BeeResponse) {
 		}
 	}
 
-	// Execute the function on the route
-	function(request, response)
+	// Execute the routeFunction on the route
+	routeFunction(request, response)
 }
