@@ -47,7 +47,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	web.ExecuteApi(req, res)
+	web.ExecuteRoute(req, res)
 }
 
 // parsingJson Parsing json parameters

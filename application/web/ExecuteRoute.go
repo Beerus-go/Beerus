@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// ExecuteApi Execute the interceptor and the corresponding interface of the route
-func ExecuteApi(request *commons.BeeRequest, response *commons.BeeResponse) {
+// ExecuteRoute Execute the interceptor and the corresponding interface of the route
+func ExecuteRoute(request *commons.BeeRequest, response *commons.BeeResponse) {
 
 	method := request.Request.Method
 	routePath := request.RoutePath
