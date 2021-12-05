@@ -22,6 +22,10 @@ it is easy to extract parameters from the request into the structure and automat
 
 ## Installation
 
+```shell
+go get github.com/yuyenews/Beerus
+```
+
 ## Documentation
 
 ## Examples
