@@ -1,20 +1,47 @@
 package util
 
-import "encoding/base64"
+import (
+	"crypto/aes"
+	"crypto/cipher"
+	"encoding/base64"
+	"errors"
+)
 
-// Encryption TODO Encrypt data to []byte
-func Encryption(data interface{}, key string) ([]byte, error) {
-	return nil, nil
+// Encryption Encrypt data to []byte
+func Encryption(data []byte, iv []byte, key []byte) ([]byte, error) {
+	if len(key) != 32 {
+		return nil, errors.New("length of key must = 32")
+	}
+
+	if len(iv) != 16 {
+		return nil, errors.New("length of initialization vector must = 16")
+	}
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(iv) != block.BlockSize() {
+		return nil, errors.New("length of the initialization vector must = length of the key cipher")
+	}
+
+	streams := cipher.NewCTR(block, iv)
+
+	dataBytes := make([]byte, len(data))
+	streams.XORKeyStream(dataBytes, data)
+
+	return dataBytes, nil
 }
 
-// Decryption TODO Decrypt source to dst
-func Decryption(source []byte, dst interface{}, key string) error {
-	return nil
+// Decryption Decrypt source to dst
+func Decryption(source []byte, iv []byte, key []byte) ([]byte, error) {
+	return Encryption(source, iv, key)
 }
 
 // EncryptionToString Encrypt data to string
-func EncryptionToString(data interface{}, key string) (string, error) {
-	by, err := Encryption(data, key)
+func EncryptionToString(data string, iv string, key string) (string, error) {
+	by, err := Encryption(StrToBytes(data), StrToBytes(iv), StrToBytes(key))
 	if err != nil {
 		return "", err
 	}
@@ -22,15 +49,15 @@ func EncryptionToString(data interface{}, key string) (string, error) {
 }
 
 // DecryptionForString Decrypt source to dst
-func DecryptionForString(source string, dst interface{}, key string) error {
+func DecryptionForString(source string, iv string, key string) (string, error) {
 	str, err := base64.StdEncoding.DecodeString(source)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	err = Decryption(str, dst, key)
+	str, err = Decryption(str, StrToBytes(iv), StrToBytes(key))
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return BytesToString(str), nil
 }
