@@ -14,12 +14,13 @@ func TestBeeSession(t *testing.T) {
 
 	demo := Demo{}
 	demo.Name = "Beerus"
-	demo.Age = 10
+	demo.Age = 18
 	demo.Height = 180
 
 	token, err := session.CreateToken(demo)
 	if err != nil {
 		log.Println("Test BeeSession FAIL: " + err.Error())
+		return
 	}
 
 	log.Println("token: " + token)
@@ -28,12 +29,14 @@ func TestBeeSession(t *testing.T) {
 	err = session.RestoreToken(token, &demo2)
 	if err != nil {
 		log.Println("Test BeeSession FAIL: " + err.Error())
+		return
 	}
 	if demo2.Name != demo.Name || demo2.Age != demo.Age || demo2.Height != demo.Height {
 		log.Println("Test BeeSession FAIL: Failed to restore token")
-	} else {
-		log.Println("Test BeeSession SUCCESS")
+		return
 	}
+
+	log.Println("Test BeeSession SUCCESS")
 }
 
 type Demo struct {

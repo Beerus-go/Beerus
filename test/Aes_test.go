@@ -17,15 +17,18 @@ func TestAes(t *testing.T) {
 
 	if err != nil {
 		log.Println(err.Error())
+		return
 	}
 
 	res, err = util.DecryptionForString(res, iv, key)
 	if err != nil {
 		log.Println("Aes Test FAIL: " + err.Error())
+		return
 	}
 	if data != res {
 		log.Println("Aes Test FAIL: Failed to decrypt")
-	} else {
-		log.Println("Aes Test SUCCESS")
+		return
 	}
+
+	log.Println("Aes Test SUCCESS")
 }
