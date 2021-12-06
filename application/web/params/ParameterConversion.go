@@ -10,6 +10,10 @@ import (
 	"strconv"
 )
 
+const (
+	Field = "field"
+)
+
 // ToStruct Take out the parameters and wrap them in struct
 func ToStruct(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) {
 
@@ -45,8 +49,17 @@ func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.
 	field := paramElem.FieldByName(fieldName)
 	paramValue := request.FormValue(fieldName)
 
-	if paramValue == "" && fieldType != data_type.BeeFile {
-		return
+	if paramValue == "" {
+		fieldTag := structField.Tag
+		if fieldTag != "" {
+			fieldParamName := fieldTag.Get(Field)
+			if fieldParamName != "" {
+				paramValue = request.FormValue(fieldParamName)
+			}
+		}
+		if paramValue == "" && fieldType != data_type.BeeFile {
+			return
+		}
 	}
 
 	// Unify the handling of numeric variable types to remove the bit identifiers and facilitate the following judgments
