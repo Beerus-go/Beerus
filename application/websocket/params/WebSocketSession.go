@@ -8,7 +8,7 @@ import (
 
 // WebSocketSession WebSocket session, mainly used to send messages to the client
 type WebSocketSession struct {
-	Id         string
+	Id         uint64
 	Connection net.Conn
 }
 
