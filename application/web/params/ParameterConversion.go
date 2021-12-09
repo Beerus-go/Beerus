@@ -44,22 +44,26 @@ func ToStructAndValidation(request *commons.BeeRequest, pointParamStruct interfa
 func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.BeeRequest, i int) {
 	var structField = paramType.Field(i)
 	fieldName := structField.Name
+	fieldTag := structField.Tag
 	fieldType := structField.Type.Name()
 
 	field := paramElem.FieldByName(fieldName)
-	paramValue := request.FormValue(fieldName)
+
+	var paramValue string
+
+	if fieldTag != "" {
+		fieldTagName := fieldTag.Get(Field)
+		if fieldTagName != "" {
+			paramValue = request.FormValue(fieldTagName)
+		}
+	}
 
 	if paramValue == "" {
-		fieldTag := structField.Tag
-		if fieldTag != "" {
-			fieldParamName := fieldTag.Get(Field)
-			if fieldParamName != "" {
-				paramValue = request.FormValue(fieldParamName)
-			}
-		}
-		if paramValue == "" && fieldType != data_type.BeeFile {
-			return
-		}
+		paramValue = request.FormValue(fieldName)
+	}
+
+	if paramValue == "" && fieldType != data_type.BeeFile {
+		return
 	}
 
 	// Unify the handling of numeric variable types to remove the bit identifiers and facilitate the following judgments
