@@ -28,6 +28,8 @@ go get github.com/yuyenews/Beerus
 
 ## Documentation
 
+[https://beeruscc.com/beerus](https://beeruscc.com/beerus)
+
 ## Examples
 
 ### HTTP example
