@@ -6,19 +6,9 @@
 </h1>
 
 Beerus is a web framework developed entirely in go, 
-whether it is json passing, form submission, formdata, etc., 
-it is easy to extract parameters from the request into the structure and automatically complete parameter validation.
-
-- ***NetWork:*** Based on go's own package: net/http, with many extensions added
-
-- ***WebSocket:*** Extensions to net/http to automatically analyze WebSocket requests and upgrade to the websocket protocol for message listening and sending and receiving
-
-- ***Http:*** Most of the functions are developed based on net/http, the Json pass-through is handled, and each request is automatically routed to the corresponding function
-
-- ***Enhanced routing management:*** Enhanced the way handlers are configured and unified through routing, so that each request will be automatically routed to the corresponding function
-
-- ***Automatic processing parameters:*** can automatically extract any type of parameter from request to struct, and support automatic parameter validation, regular, range, non-empty validation, and custom hint messages
-
+Based on net/http, it extends the management of routes, adds interceptors, session management, 
+receiving parameters with struct, parameter validation, etc. 
+It also provides WebSocket support to upgrade the http protocol to WebSocket and implement communication.
 
 ## Installation
 
