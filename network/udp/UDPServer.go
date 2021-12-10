@@ -49,36 +49,40 @@ func udpConnection(conn *net.UDPConn, separator []byte, handler func(data []byte
 		readSizeCache += ln
 		buf.Write(data)
 
-		separatorIndex := util.ByteIndexOf(buf.Bytes(), separator)
+		// It may be possible to read more than one message at a time, so a loop needs to be made here
+		for {
+			separatorIndex := util.ByteIndexOf(buf.Bytes(), separator)
 
-		if separatorIndex <= 0 {
-			continue
-		}
+			if separatorIndex <= 0 {
+				break
+			}
 
-		message, errMsg := util.SubBytes(buf.Bytes(), 0, separatorIndex)
+			message, errMsg := util.SubBytes(buf.Bytes(), 0, separatorIndex)
 
-		if errMsg != nil {
-			log.Printf("Read from udp server:%s failed,err:%s", addr, errMsg)
-			break
-		}
-
-		handler(message)
-
-		processedLength := len(message) + len(separator)
-
-		if processedLength == readSizeCache {
-			buf.Reset()
-			readSizeCache = 0
-		} else {
-			remaining, errorMsg := util.CopyOfRange(buf.Bytes(), processedLength, readSizeCache)
-			if errorMsg != nil {
+			if errMsg != nil {
 				log.Printf("Read from udp server:%s failed,err:%s", addr, errMsg)
 				break
 			}
-			buf = bytes.NewBuffer(remaining)
-			readSizeCache = readSizeCache - processedLength
-			if readSizeCache < 0 {
+
+			handler(message)
+
+			processedLength := len(message) + len(separator)
+
+			if processedLength == readSizeCache {
+				buf.Reset()
 				readSizeCache = 0
+				break
+			} else {
+				remaining, errorMsg := util.CopyOfRange(buf.Bytes(), processedLength, readSizeCache)
+				if errorMsg != nil {
+					log.Printf("Read from udp server:%s failed,err:%s", addr, errMsg)
+					return
+				}
+				buf = bytes.NewBuffer(remaining)
+				readSizeCache = readSizeCache - processedLength
+				if readSizeCache < 0 {
+					readSizeCache = 0
+				}
 			}
 		}
 	}
