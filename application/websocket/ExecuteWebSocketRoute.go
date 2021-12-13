@@ -1,7 +1,7 @@
 package websocket
 
 import (
-	"github.com/yuyenews/Beerus/application/websocket/params"
+	"github.com/yuyenews/Beerus/application/websocket/wparams"
 	"github.com/yuyenews/Beerus/application/websocket/wroute"
 	"github.com/yuyenews/Beerus/commons/util"
 	"log"
@@ -9,7 +9,7 @@ import (
 )
 
 // SessionMap Save each linked session
-var sessionMap = make(map[string]*params.WebSocketSession)
+var sessionMap = make(map[string]*wparams.WebSocketSession)
 
 var snowflake *util.SnowFlake
 
@@ -32,7 +32,7 @@ func ExecuteConnection(routePath string, conn net.Conn) {
 		return
 	}
 
-	session := new(params.WebSocketSession)
+	session := new(wparams.WebSocketSession)
 	session.Connection = conn
 	session.Id = snowflakeId
 	sessionMap[routePath] = session
