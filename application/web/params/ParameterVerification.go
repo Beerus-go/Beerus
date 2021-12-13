@@ -51,7 +51,7 @@ func Validation(request *commons.BeeRequest, pointParamStruct interface{}, param
 			continue
 		}
 
-		// Whether the route of this request is within the scope of this field check
+		// Whether the wroute of this request is within the scope of this field check
 		if routes != "" {
 			var isContain = false
 

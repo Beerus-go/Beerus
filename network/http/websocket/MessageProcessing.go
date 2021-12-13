@@ -18,13 +18,13 @@ func Processing(buffer *bytes.Buffer, readSizeCache int, routePath string) (int,
 
 	message, isClose, size := readMessage(buffer, readSizeCache)
 
-	// When the connection is properly disconnected, the route is called for service processing
+	// When the connection is properly disconnected, the wroute is called for service processing
 	if isClose != nil {
 		websocket.ExecuteClose(routePath)
 		return 0, errors.New(CLOSE)
 	}
 
-	// When a complete message is parsed, the route is invoked for service processing
+	// When a complete message is parsed, the wroute is invoked for service processing
 	if message != BLANK && message != READING {
 		websocket.ExecuteMessage(routePath, message)
 		return size, nil

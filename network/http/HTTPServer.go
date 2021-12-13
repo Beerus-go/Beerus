@@ -68,7 +68,7 @@ func parsingJson(request *commons.BeeRequest) error {
 	return nil
 }
 
-// setRoutePath Set the route path to request
+// setRoutePath Set the wroute path to request
 func setRoutePath(request *commons.BeeRequest) {
 	url := request.Request.RequestURI
 	var lastIndex = strings.LastIndex(url, "?")

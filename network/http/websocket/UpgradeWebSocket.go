@@ -5,7 +5,7 @@ import (
 	"crypto/sha1"
 	"encoding/base64"
 	"github.com/yuyenews/Beerus/application/websocket"
-	"github.com/yuyenews/Beerus/application/websocket/route"
+	"github.com/yuyenews/Beerus/application/websocket/wroute"
 	"github.com/yuyenews/Beerus/commons/util"
 	"github.com/yuyenews/Beerus/network/http/commons"
 	"log"
@@ -18,8 +18,8 @@ import (
 func UpgradeToWebSocket(write http.ResponseWriter, request *commons.BeeRequest) {
 
 	// Does routing exist
-	if route.WebSocketRouteExist(request.RoutePath) == false {
-		log.Println("WebSocket route does not exist, connection failed")
+	if wroute.WebSocketRouteExist(request.RoutePath) == false {
+		log.Println("WebSocket wroute does not exist, connection failed")
 		return
 	}
 

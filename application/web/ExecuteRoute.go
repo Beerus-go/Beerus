@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// ExecuteRoute Execute the interceptor and the corresponding interface of the route
+// ExecuteRoute Execute the interceptor and the corresponding interface of the wroute
 func ExecuteRoute(request *commons.BeeRequest, response *commons.BeeResponse) {
 
 	method := request.Request.Method
@@ -15,7 +15,7 @@ func ExecuteRoute(request *commons.BeeRequest, response *commons.BeeResponse) {
 	routeFunction := route.GetRoute(routePath + "/" + strings.ToUpper(method))
 
 	if routeFunction == nil {
-		response.SendErrorMsg(400, "This route does not exist, please check if the route path and request method are correct")
+		response.SendErrorMsg(400, "This wroute does not exist, please check if the wroute path and request method are correct")
 		return
 	}
 
@@ -29,6 +29,6 @@ func ExecuteRoute(request *commons.BeeRequest, response *commons.BeeResponse) {
 		}
 	}
 
-	// Execute the routeFunction on the route
+	// Execute the routeFunction on the wroute
 	routeFunction(request, response)
 }

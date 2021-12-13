@@ -2,7 +2,7 @@ package websocket
 
 import (
 	"github.com/yuyenews/Beerus/application/websocket/params"
-	"github.com/yuyenews/Beerus/application/websocket/route"
+	"github.com/yuyenews/Beerus/application/websocket/wroute"
 	"github.com/yuyenews/Beerus/commons/util"
 	"log"
 	"net"
@@ -13,7 +13,7 @@ var sessionMap = make(map[string]*params.WebSocketSession)
 
 var snowflake *util.SnowFlake
 
-// ExecuteConnection Triggers the onConnection function inside the route
+// ExecuteConnection Triggers the onConnection function inside the wroute
 func ExecuteConnection(routePath string, conn net.Conn) {
 
 	var snowflakeId uint64
@@ -37,20 +37,20 @@ func ExecuteConnection(routePath string, conn net.Conn) {
 	session.Id = snowflakeId
 	sessionMap[routePath] = session
 
-	route.GetWebSocketRoute(routePath, route.OnConnection)(session, "The client is already connected")
+	wroute.GetWebSocketRoute(routePath, wroute.OnConnection)(session, "The client is already connected")
 }
 
-// ExecuteMessage Triggers the onMessage function inside the route
+// ExecuteMessage Triggers the onMessage function inside the wroute
 func ExecuteMessage(routePath string, message string) {
-	route.GetWebSocketRoute(routePath, route.OnMessage)(sessionMap[routePath], message)
+	wroute.GetWebSocketRoute(routePath, wroute.OnMessage)(sessionMap[routePath], message)
 }
 
-// ExecuteClose Triggers the onClose function inside the route
+// ExecuteClose Triggers the onClose function inside the wroute
 func ExecuteClose(routePath string) {
 	if sessionMap[routePath] == nil {
 		return
 	}
 
 	delete(sessionMap, routePath)
-	route.GetWebSocketRoute(routePath, route.OnClose)(sessionMap[routePath], "The client is disconnected")
+	wroute.GetWebSocketRoute(routePath, wroute.OnClose)(sessionMap[routePath], "The client is disconnected")
 }

@@ -11,7 +11,7 @@ import (
 var interceptorMap = make(map[string]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
 
 // afterReloadingInterceptorMap
-//When the service is started, the interceptor pattern and route are matched and then stored here to improve the efficiency of getting the interceptor based on the route.
+//When the service is started, the interceptor pattern and wroute are matched and then stored here to improve the efficiency of getting the interceptor based on the wroute.
 var afterReloadingInterceptorMap = make(map[string]map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
 
 // AddInterceptor
@@ -27,7 +27,7 @@ func GetInterceptor(path string) map[int]func(req *commons.BeeRequest, res *comm
 }
 
 // ReloadMatchToUrl
-// When the service is started, the interceptor and the route are matched and then stored according to the route, so that it is easy to get the interceptor according to the route
+// When the service is started, the interceptor and the wroute are matched and then stored according to the wroute, so that it is easy to get the interceptor according to the wroute
 func ReloadMatchToUrl() {
 	if len(interceptorMap) <= 0 || len(afterReloadingInterceptorMap) > 0 {
 		return
