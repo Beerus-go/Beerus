@@ -89,7 +89,7 @@ func isWebSocket(request *commons.BeeRequest) bool {
 		return false
 	}
 
-	if strings.ToUpper(connection) != strings.ToUpper(commons.Upgrade) {
+	if strings.Index(strings.ToUpper(connection), strings.ToUpper(commons.Upgrade)) <= -1 {
 		return false
 	}
 
