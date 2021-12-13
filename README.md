@@ -113,15 +113,15 @@ func CreateWebSocketRoute() {
 
 // In order to save time, only three functions are used below. In practice, you can configure a set of functions for each wroute
 
-func onConnection(session *params.WebSocketSession, msg string) {
+func onConnection(session *wparams.WebSocketSession, msg string) {
 	session.SendString("connection success")
 }
 
-func onMessage(session *params.WebSocketSession, msg string) {
+func onMessage(session *wparams.WebSocketSession, msg string) {
 	session.SendString("I got the message.")
 }
 
-func onClose(session *params.WebSocketSession, msg string) {
+func onClose(session *wparams.WebSocketSession, msg string) {
     println(msg + "-------------------------------")
 }
 ```
