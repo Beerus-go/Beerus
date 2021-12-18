@@ -88,5 +88,5 @@ type DemoParam struct {
 	TestBoolReception      bool
 	TestBeeFileReception   commons.BeeFile
 
-	TestJsonReception []string
+	TestJsonReception []string `notnull:"true" msg:"TestJsonReception Cannot be empty"`
 }

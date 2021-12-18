@@ -32,7 +32,7 @@ func Validation(request *commons.BeeRequest, pointParamStruct interface{}, param
 	for i := 0; i < fieldNum; i++ {
 		var field = paramType.Field(i)
 		var fieldName = field.Name
-		var fieldType = field.Type.Name()
+		var fieldType = GetFieldType(field)
 		var fieldTag = field.Tag
 
 		if fieldTag == "" {
@@ -70,12 +70,6 @@ func Validation(request *commons.BeeRequest, pointParamStruct interface{}, param
 		// If the user does not set a prompt message, give a default value
 		if msg == "" {
 			msg = "Parameters [" + fieldName + "] do not meet the calibration rules"
-		}
-
-		// Unify the handling of numeric variable types to remove the bit identifiers and facilitate the following judgments
-		var fType = GetFieldType(fieldType)
-		if fType != "" {
-			fieldType = fType
 		}
 
 		// Start checking the fields
@@ -181,6 +175,11 @@ func isSuccess(fieldType string, field reflect.Value, fieldName string, notNull 
 			if !isMatch {
 				return msg
 			}
+		}
+		break
+	case data_type.Slice:
+		if notNull != "" && field.IsNil() {
+			return msg
 		}
 		break
 	}

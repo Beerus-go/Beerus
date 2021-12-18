@@ -30,6 +30,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 
 	req.Request = request
 	res.Response = write
+	req.Params = make(map[string][]string)
 
 	setRoutePath(req)
 
@@ -40,7 +41,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	}
 
 	// Not WebSocket will handle http normally
-	var error = parsingJson(req)
+	var error = parsingParam(req)
 
 	if error != nil {
 		res.SendErrorMsg(500, error.Error())
@@ -50,25 +51,74 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	web.ExecuteRoute(req, res)
 }
 
-// parsingJson Parsing json parameters
-func parsingJson(request *commons.BeeRequest) error {
+// parsingParam Parsing json parameters
+func parsingParam(request *commons.BeeRequest) error {
 
 	contentType := request.ContentType()
 
-	if strings.ToUpper(request.Request.Method) != "GET" && commons.IsJSON(contentType) {
-		var result, err = ioutil.ReadAll(request.Request.Body)
-		if err != nil {
-			log.Print("Exception for parsing json parameters", err.Error())
-			return err
+	if strings.ToUpper(request.Request.Method) == "GET" {
+		url := request.Request.RequestURI
+		paramIndex := strings.LastIndex(url, "?")
+
+		if paramIndex > -1 {
+			paramStr := url[(paramIndex + 1):]
+			extractionParameters(paramStr, request)
 		}
 
-		request.Json = util.BytesToString(result)
+	} else {
+		if commons.IsUrlEncode(contentType) {
+			body := request.Request.Body
+			if body == nil {
+				return nil
+			}
+
+			resultFrom, err := ioutil.ReadAll(body)
+			if err != nil {
+				log.Print("Exception for parsing urlEncode parameters", err.Error())
+				return err
+			}
+
+			extractionParameters(util.BytesToString(resultFrom), request)
+		} else if commons.IsJSON(contentType) {
+			body := request.Request.Body
+			if body == nil {
+				return nil
+			}
+
+			resultJson, err := ioutil.ReadAll(body)
+			if err != nil {
+				log.Print("Exception for parsing json parameters", err.Error())
+				return err
+			}
+
+			request.Json = util.BytesToString(resultJson)
+		}
 	}
 
 	return nil
 }
 
-// setRoutePath Set the wroute path to request
+// extractionParameters Extraction parameters
+func extractionParameters(paramStr string, request *commons.BeeRequest) {
+	if paramStr == "" {
+		return
+	}
+	paramArray := strings.Split(paramStr, "&")
+	for _, param := range paramArray {
+		if param == "" {
+			continue
+		}
+
+		paramKeyAndVal := strings.Split(param, "=")
+		if len(paramKeyAndVal) <= 0 {
+			continue
+		}
+
+		request.AddParam(paramKeyAndVal[0], paramKeyAndVal[1])
+	}
+}
+
+// setRoutePath Set the route path to request
 func setRoutePath(request *commons.BeeRequest) {
 	url := request.Request.RequestURI
 	var lastIndex = strings.LastIndex(url, "?")

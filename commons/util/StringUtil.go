@@ -8,6 +8,9 @@ import (
 
 // StrToBytes string to byte[]
 func StrToBytes(val string) []byte {
+	if val == "" {
+		return nil
+	}
 	x := (*[2]uintptr)(unsafe.Pointer(&val))
 	h := [3]uintptr{x[0], x[1], x[1]}
 	return *(*[]byte)(unsafe.Pointer(&h))
@@ -15,6 +18,9 @@ func StrToBytes(val string) []byte {
 
 // BytesToString byte[] to string
 func BytesToString(val []byte) string {
+	if val == nil || len(val) < 1 {
+		return ""
+	}
 	return *(*string)(unsafe.Pointer(&val))
 }
 

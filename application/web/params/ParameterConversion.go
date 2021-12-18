@@ -45,43 +45,43 @@ func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.
 	var structField = paramType.Field(i)
 	fieldName := structField.Name
 	fieldTag := structField.Tag
-	fieldType := structField.Type.Name()
+	fieldType := GetFieldType(structField)
 
 	field := paramElem.FieldByName(fieldName)
 
-	var paramValue string
+	var paramValues []string
 
 	if fieldTag != "" {
 		fieldTagName := fieldTag.Get(Field)
 		if fieldTagName != "" {
-			paramValue = request.FormValue(fieldTagName)
+			paramValues = request.FormValues(fieldTagName)
 		}
 	}
 
-	if paramValue == "" {
-		paramValue = request.FormValue(fieldName)
+	if paramValues == nil || len(paramValues) < 1 {
+		paramValues = request.FormValues(fieldName)
 	}
 
-	if paramValue == "" && fieldType != data_type.BeeFile {
+	if (paramValues == nil || len(paramValues) < 1) && fieldType != data_type.BeeFile {
 		return
 	}
 
-	// Unify the handling of numeric variable types to remove the bit identifiers and facilitate the following judgments
-	var fType = GetFieldType(fieldType)
-	if fType != "" {
-		fieldType = fType
+	// In the actual scenario, most of the fields are definitely not slices, so here we determine if the first value is empty, and if it is, we don't need to go further
+	oneParam := paramValues[0]
+	if fieldType != data_type.BeeFile && oneParam == "" {
+		return
 	}
 
 	switch fieldType {
 	case data_type.Int:
-		val, err := strconv.ParseInt(paramValue, 10, 64)
+		val, err := strconv.ParseInt(oneParam, 10, 64)
 		if err != nil {
 			errorPrint(fieldName, err)
 			return
 		}
 		field.SetInt(val)
 	case data_type.Uint:
-		val, err := strconv.ParseUint(paramValue, 10, 64)
+		val, err := strconv.ParseUint(oneParam, 10, 64)
 		if err != nil {
 			errorPrint(fieldName, err)
 			return
@@ -89,7 +89,7 @@ func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.
 		field.SetUint(val)
 		break
 	case data_type.Float:
-		val, err := strconv.ParseFloat(paramValue, 64)
+		val, err := strconv.ParseFloat(oneParam, 64)
 		if err != nil {
 			errorPrint(fieldName, err)
 			return
@@ -97,7 +97,7 @@ func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.
 		field.SetFloat(val)
 		break
 	case data_type.Bool:
-		val, err := strconv.ParseBool(paramValue)
+		val, err := strconv.ParseBool(oneParam)
 		if err != nil {
 			errorPrint(fieldName, err)
 			return
@@ -105,7 +105,10 @@ func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.
 		field.SetBool(val)
 		break
 	case data_type.String:
-		field.SetString(paramValue)
+		field.SetString(oneParam)
+		break
+	case data_type.Slice:
+		field.Set(reflect.ValueOf(paramValues))
 		break
 	case data_type.BeeFile:
 		contentType := request.ContentType()
