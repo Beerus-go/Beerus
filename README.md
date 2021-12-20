@@ -98,14 +98,6 @@ func CreateRoute() {
             return
         }
         
-        // You can also convert + validate the parameters in one step
-        // Extraction of parameters + validation
-        var result = params.ToStructAndValidation(req, &param, param)
-        if result != params.SUCCESS {
-            res.SendErrorMsg(1128, result)
-            return
-        }
-        
         
         res.SendJson(`{"msg":"SUCCESS"}`)
     })
