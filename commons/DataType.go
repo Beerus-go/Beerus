@@ -11,4 +11,7 @@ const (
 
 	// BeeFile Beerus provides a struct to store files, if the request Content-Type is formData, then you can use this type to receive files from the client
 	BeeFile = "beefile"
+
+	BeeRequest  = "beerequest"
+	BeeResponse = "beeresponse"
 )

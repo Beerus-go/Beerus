@@ -15,7 +15,7 @@ const (
 )
 
 // ToStruct Take out the parameters and wrap them in struct
-func ToStruct(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) {
+func ToStruct(request commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) {
 
 	contentType := request.ContentType()
 
@@ -29,19 +29,19 @@ func ToStruct(request *commons.BeeRequest, pointParamStruct interface{}, paramSt
 
 	fieldNum := paramType.NumField()
 	for i := 0; i < fieldNum; i++ {
-		setValue(paramType, paramElem, request, i)
+		SetValue(paramType, paramElem, request, i)
 	}
 }
 
 // ToStructAndValidation Take the parameters out, wrap them in a struct and check the parameters
-func ToStructAndValidation(request *commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
+func ToStructAndValidation(request commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
 	ToStruct(request, pointParamStruct, paramStruct)
 	var result = Validation(request, pointParamStruct, paramStruct)
 	return result
 }
 
-// setValue Assigning values to fields
-func setValue(paramType reflect.Type, paramElem reflect.Value, request *commons.BeeRequest, i int) {
+// SetValue Assigning values to fields
+func SetValue(paramType reflect.Type, paramElem reflect.Value, request commons.BeeRequest, i int) {
 	var structField = paramType.Field(i)
 	fieldName := structField.Name
 	fieldTag := structField.Tag

@@ -28,17 +28,48 @@ Create a function to manage the routing configuration
 
 ```go
 func CreateRoute() {
-	// post route example
-    route.POST("/example/post", func (req *commons.BeeRequest, res *commons.BeeResponse) {
-        
-        res.SendJson(`{"msg":"SUCCESS"}`)
-    })
-
-    // get route example
-    route.GET("/example/get", func (req *commons.BeeRequest, res *commons.BeeResponse) {
     
+    // Turn off json mode, it is on by default
+    route.JsonMode = false
+    
+    // post route example
+    // In non-json mode, you need to call the Send function in the res object yourself to return the data
+    // The first parameter, DemoParam, is a struct, and the parameters passed by the front-end will be automatically extracted into DemoParam
+    route.POST("/example/post", func (param DemoParam, req commons.BeeRequest, res commons.BeeResponse) {
         res.SendJson(`{"msg":"SUCCESS"}`)
     })
+    
+    // --- For demonstration purposes, both modes are used here, but in practice, only one mode can be used for the whole project, not mixed ---
+    
+    // Turn off json mode, it is on by default
+    route.JsonMode = true
+    
+    // get route example
+    // In json mode, you must set the return value for the routing function, which supports struct, map, array types. beerus will automatically convert the return value to json response to the front-end.
+    // The first parameter, DemoParam, is a struct, and the parameters passed by the front-end will be automatically extracted into DemoParam
+    route.GET("/example/get", func (param DemoParam) map[string]string{
+		
+        // In json mode, Just return the response data directly
+		// Here is a demonstration with map, which actually supports struct, map, array types
+        msg := make(map[string]string)
+        msg["msg"] = "success"
+        return msg
+    })
+}
+
+// DemoParam If you have a struct like this, and you want to put all the parameters from the request into this struct
+type DemoParam struct {
+    // You can customize any field
+    // the name of the field must be exactly the same as the name of the requested parameter, and is case-sensitive
+    TestStringReception  string  `notnull:"true" msg:"TestStringReception Cannot be empty" routes:"/example/put"`
+    TestIntReception     int     `max:"123" min:"32" msg:"TestIntReception The value range must be between 32 - 123" routes:"/example/post"`
+    TestUintReception    uint    `max:"123" min:"32" msg:"TestUintReception The value range must be between 32 - 123"`
+    TestFloatReception   float32 `max:"123" min:"32" msg:"TestFloatReception The value range must be between 32 - 123"`
+    TestBoolReception    bool
+    TestStringRegReception string `reg:"^[a-z]+$" msg:"TestStringRegReception Does not meet the regular"`
+    TestBeeFileReception commons.BeeFile
+    
+    TestJsonReception []string
 }
 ```
 
@@ -58,13 +89,14 @@ If you want to put the parameters inside struct and complete the parameter check
 
 ```go
 func CreateRoute() {
+	
     // Example of parameter conversion to struct and parameter checksum
-    route.POST("/example/post", func (req *commons.BeeRequest, res *commons.BeeResponse) {
-        param := DemoParam{}
-        
-        // Extraction parameters, Generally used in scenarios where verification is not required or you want to verify manually
-        params.ToStruct(req, &param, param)
-        
+    route.POST("/example/post", func (param  DemoParam, req commons.BeeRequest, res commons.BeeResponse) {
+		
+		// ----- Only non-json mode requires manual validation -----
+		
+		// If you're in json mode, you don't need to write the following code
+		
         // Separate validation of data in struct, this feature can be used independently in any case and is not limited to the routing layer.
         var result = params.Validation(req, &param, param)
         if result != params.SUCCESS {
