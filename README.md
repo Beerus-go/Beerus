@@ -93,10 +93,10 @@ func CreateRoute() {
     // Example of parameter conversion to struct and parameter checksum
     route.POST("/example/post", func (param  DemoParam, req commons.BeeRequest, res commons.BeeResponse) {
 		
-		// ----- Only non-json mode requires manual validation -----
-		
-		// If you're in json mode, you don't need to write the following code
-		
+        // ----- Only non-json mode requires manual validation -----
+        
+        // If you're in json mode, you don't need to write the following code
+        
         // Separate validation of data in struct, this feature can be used independently in any case and is not limited to the routing layer.
         var result = params.Validation(req, &param, param)
         if result != params.SUCCESS {
