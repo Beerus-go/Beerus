@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -103,6 +104,13 @@ func extractionParameters(paramStr string, request *commons.BeeRequest) {
 	if paramStr == "" {
 		return
 	}
+
+	paramStr, err := url.QueryUnescape(paramStr)
+	if err != nil {
+		// Here it just fails to decode, so there is no need to stop, as the user receives the parameters and can decode them themselves.
+		log.Println(err.Error())
+	}
+
 	paramArray := strings.Split(paramStr, "&")
 	for _, param := range paramArray {
 		if param == "" {

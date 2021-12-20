@@ -13,7 +13,7 @@ It also provides WebSocket support to upgrade the http protocol to WebSocket and
 ## Installation
 
 ```shell
-go get github.com/yuyenews/Beerus@v1.1.3
+go get github.com/yuyenews/Beerus@v1.1.5
 ```
 
 ## Documentation
@@ -50,7 +50,7 @@ func CreateRoute() {
     route.GET("/example/get", func (param DemoParam) map[string]string{
 		
         // In json mode, Just return the response data directly
-		// Here is a demonstration with map, which actually supports struct, map, array types
+        // Here is a demonstration with map, which actually supports struct, map, array types
         msg := make(map[string]string)
         msg["msg"] = "success"
         return msg
