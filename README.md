@@ -73,7 +73,7 @@ func main() {
 }
 ```
 
-non-json mode
+Non-JSON modes
 
 ```go
 func CreateRoute() {
