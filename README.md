@@ -29,7 +29,7 @@ Create a function to manage the routing configuration
 ```go
 func CreateRoute() {
 	
-    // Turn off json mode, it is on by default
+    // Turn on json mode, it is on by default
     route.JsonMode = true
     
     // get route example
