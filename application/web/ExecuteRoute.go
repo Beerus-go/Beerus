@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/json"
 	"github.com/yuyenews/Beerus/application/web/params"
 	"github.com/yuyenews/Beerus/application/web/route"
 	"github.com/yuyenews/Beerus/commons"
@@ -47,7 +48,8 @@ func executeFunction(request *commons.BeeRequest, response *commons.BeeResponse,
 
 	for i := 0; i < paramNum; i++ {
 		param := method.Type().In(i)
-		paramElem := reflect.New(param).Elem()
+		paramObj := reflect.New(param)
+		paramElem := paramObj.Elem()
 
 		if strings.ToLower(param.Kind().String()) != data_type.Struct {
 			paramArray = append(paramArray, reflect.New(param).Elem())
@@ -65,8 +67,19 @@ func executeFunction(request *commons.BeeRequest, response *commons.BeeResponse,
 		}
 
 		// Assigning values to the fields inside the parameters
-		for j := 0; j < param.NumField(); j++ {
-			params.SetValue(param, paramElem, *request, j)
+		if commons.IsJSON(request.ContentType()) {
+
+			json.Unmarshal(util.StrToBytes(request.Json), paramObj.Interface())
+
+			paramElem = paramObj.Elem()
+			paramArray = append(paramArray, paramElem)
+
+		} else {
+			for j := 0; j < param.NumField(); j++ {
+				params.SetValue(param, paramElem, *request, j)
+			}
+
+			paramArray = append(paramArray, paramElem)
 		}
 
 		// If json mode is turned on, then automated parameter validation will be performed and the response message in json format will be given to the front-end based on the validation result.
@@ -77,8 +90,6 @@ func executeFunction(request *commons.BeeRequest, response *commons.BeeResponse,
 				return
 			}
 		}
-
-		paramArray = append(paramArray, paramElem)
 	}
 
 	// If json mode is turned off
