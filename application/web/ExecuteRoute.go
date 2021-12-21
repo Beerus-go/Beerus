@@ -52,7 +52,7 @@ func executeFunction(request *commons.BeeRequest, response *commons.BeeResponse,
 		paramElem := paramObj.Elem()
 
 		if strings.ToLower(param.Kind().String()) != data_type.Struct {
-			paramArray = append(paramArray, reflect.New(param).Elem())
+			paramArray = append(paramArray, paramElem)
 			continue
 		}
 
@@ -68,10 +68,11 @@ func executeFunction(request *commons.BeeRequest, response *commons.BeeResponse,
 
 		// Assigning values to the fields inside the parameters
 		if commons.IsJSON(request.ContentType()) {
+			if request.Json != "" {
+				json.Unmarshal(util.StrToBytes(request.Json), paramObj.Interface())
+				paramElem = paramObj.Elem()
+			}
 
-			json.Unmarshal(util.StrToBytes(request.Json), paramObj.Interface())
-
-			paramElem = paramObj.Elem()
 			paramArray = append(paramArray, paramElem)
 
 		} else {
