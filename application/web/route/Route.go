@@ -51,6 +51,17 @@ func OPTIONS(path string, function interface{}) {
 	AddRoute(path, "OPTIONS", function)
 }
 
+// Any add a router for all request method
+func Any(path string, function interface{}) {
+	GET(path, function)
+	POST(path, function)
+	PUT(path, function)
+	DELETE(path, function)
+	PATCH(path, function)
+	HEAD(path, function)
+	OPTIONS(path, function)
+}
+
 // AddRoute Add a wroute, and if you need to use another request method, you can use this
 func AddRoute(path string, method string, function interface{}) {
 	routeMap[path+"/"+method] = function
