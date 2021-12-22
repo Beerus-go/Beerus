@@ -7,6 +7,7 @@ import (
 	"github.com/yuyenews/Beerus/commons"
 	"github.com/yuyenews/Beerus/commons/util"
 	"github.com/yuyenews/Beerus/network/http/commons"
+	"log"
 	"reflect"
 	"strings"
 )
@@ -30,7 +31,7 @@ func ExecuteRoute(request *commons.BeeRequest, response *commons.BeeResponse) {
 	for _, inter := range interceptors {
 		var result = inter(request, response)
 		if result == false {
-			// TODO 这个版本发行以后，一定要在文档里标注一下，拦截器如果返回false，那么必须 在返回之前，在拦截器里调用res.SendXXX 函数给前端一个响应，不然本次请求就卡死了
+			log.Println("[This is a friendly reminder, not an error or a warning]: your interceptor returns false, make sure you have called the res.SendXXX function to respond to the front end before returning false")
 			return
 		}
 	}
