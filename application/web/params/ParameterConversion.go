@@ -15,7 +15,7 @@ const (
 )
 
 // ToStruct Take out the parameters and wrap them in struct
-func ToStruct(request commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) {
+func ToStruct(request commons.BeeRequest, pointParamStruct interface{}) {
 
 	contentType := request.ContentType()
 
@@ -24,8 +24,8 @@ func ToStruct(request commons.BeeRequest, pointParamStruct interface{}, paramStr
 		return
 	}
 
-	var paramType = reflect.TypeOf(paramStruct)
 	var paramElem = reflect.ValueOf(pointParamStruct).Elem()
+	var paramType = paramElem.Type()
 
 	fieldNum := paramType.NumField()
 	for i := 0; i < fieldNum; i++ {
@@ -34,9 +34,9 @@ func ToStruct(request commons.BeeRequest, pointParamStruct interface{}, paramStr
 }
 
 // ToStructAndValidation Take the parameters out, wrap them in a struct and check the parameters
-func ToStructAndValidation(request commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
-	ToStruct(request, pointParamStruct, paramStruct)
-	var result = Validation(request, pointParamStruct, paramStruct)
+func ToStructAndValidation(request commons.BeeRequest, pointParamStruct interface{}) string {
+	ToStruct(request, pointParamStruct)
+	var result = Validation(request, pointParamStruct)
 	return result
 }
 

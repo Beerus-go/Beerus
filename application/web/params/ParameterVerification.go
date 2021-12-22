@@ -23,9 +23,10 @@ const (
 )
 
 // Validation Checking the parameters of the struct
-func Validation(request commons.BeeRequest, pointParamStruct interface{}, paramStruct interface{}) string {
-	var paramType = reflect.TypeOf(paramStruct)
+func Validation(request commons.BeeRequest, pointParamStruct interface{}) string {
 	var paramElem = reflect.ValueOf(pointParamStruct).Elem()
+	var paramType = paramElem.Type()
+
 	return ValidationReflect(request, paramElem, paramType)
 }
 

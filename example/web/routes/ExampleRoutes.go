@@ -10,7 +10,7 @@ import (
 
 func CreateRoute() {
 
-	route.JsonMode = true
+	route.JsonMode = false
 
 	// Example of file download
 	route.GET("/downLoad/file", func(req commons.BeeRequest, res commons.BeeResponse) string {
@@ -44,36 +44,33 @@ func CreateRoute() {
 		return msg
 	})
 
+	// Before request this route, the json mode needs to be turned off
 	// Example of parameter conversion to struct + checksum in one step
-	route.PUT("/example/put", func(req commons.BeeRequest, res commons.BeeResponse) map[string]string {
+	route.PUT("/example/put", func(req commons.BeeRequest, res commons.BeeResponse) {
 
 		param := DemoParam{}
 
 		// Extraction parameters, Generally used in scenarios where verification is not required or you want to verify manually
-		params.ToStruct(req, &param, param)
+		params.ToStruct(req, &param)
 
 		// Separate validation of data in struct, this feature can be used independently in any case and is not limited to the routing layer.
 		// json mode does not require manual validation, this code can be omitted, here is used to demonstrate the non-json mode, how to validate the parameters
-		var result = params.Validation(req, &param, param)
+		var result = params.Validation(req, &param)
 		if result != params.SUCCESS {
 
 			// Non-json mode also can not be returned in this way, you need to call the Send function in the res object to return the result to the front end
-			msg := make(map[string]string)
-			msg["code"] = "1128"
-			msg["msg"] = result
-			return msg
+			res.SendErrorMsg(500, result)
+			return
 		}
 
 		// Extraction of parameters + validation
 		// json mode does not require manual validation, this code can be omitted, here is used to demonstrate the non-json mode, how to validate the parameters
-		result = params.ToStructAndValidation(req, &param, param)
+		result = params.ToStructAndValidation(req, &param)
 		if result != params.SUCCESS {
 
 			// Non-json mode also can not be returned in this way, you need to call the Send function in the res object to return the result to the front end
-			msg := make(map[string]string)
-			msg["code"] = "1128"
-			msg["msg"] = result
-			return msg
+			res.SendErrorMsg(500, result)
+			return
 		}
 
 		println(param.TestStringReception)
@@ -84,9 +81,7 @@ func CreateRoute() {
 		println(param.TestUint64Reception)
 		println(param.TestBoolReception)
 
-		msg := make(map[string]string)
-		msg["msg"] = "success"
-		return msg
+		res.SendJson(`{"msg":"hello word"}`)
 	})
 }
 
