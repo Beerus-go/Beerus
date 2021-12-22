@@ -29,8 +29,8 @@ func ExecuteRoute(request *commons.BeeRequest, response *commons.BeeResponse) {
 	var interceptors = route.GetInterceptor(routePath)
 	for _, inter := range interceptors {
 		var result = inter(request, response)
-		if result != params.SUCCESS {
-			response.SendErrorMsg(500, result)
+		if result == false {
+			// TODO 这个版本发行以后，一定要在文档里标注一下，拦截器如果返回false，那么必须 在返回之前，在拦截器里调用res.SendXXX 函数给前端一个响应，不然本次请求就卡死了
 			return
 		}
 	}

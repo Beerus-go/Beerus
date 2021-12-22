@@ -8,21 +8,21 @@ import (
 
 // interceptorMap
 //Store the map of the interceptor
-var interceptorMap = make(map[string]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
+var interceptorMap = make(map[string]func(req *commons.BeeRequest, res *commons.BeeResponse) bool)
 
 // afterReloadingInterceptorMap
 //When the service is started, the interceptor pattern and wroute are matched and then stored here to improve the efficiency of getting the interceptor based on the wroute.
-var afterReloadingInterceptorMap = make(map[string]map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
+var afterReloadingInterceptorMap = make(map[string]map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) bool)
 
 // AddInterceptor
 // Add an interceptor
-func AddInterceptor(pattern string, before func(req *commons.BeeRequest, res *commons.BeeResponse) string) {
+func AddInterceptor(pattern string, before func(req *commons.BeeRequest, res *commons.BeeResponse) bool) {
 	interceptorMap[pattern] = before
 }
 
 // GetInterceptor
 // Get interceptors based on routes
-func GetInterceptor(path string) map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string {
+func GetInterceptor(path string) map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) bool {
 	return afterReloadingInterceptorMap[path]
 }
 
@@ -46,7 +46,7 @@ func ReloadMatchToUrl() {
 
 			var interceptorArray = afterReloadingInterceptorMap[routePath]
 			if interceptorArray == nil || len(interceptorArray) <= 0 {
-				interceptorArray = make(map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) string)
+				interceptorArray = make(map[int]func(req *commons.BeeRequest, res *commons.BeeResponse) bool)
 			}
 
 			interceptorArray[index] = value
