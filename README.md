@@ -32,10 +32,9 @@ func CreateRoute() {
     // Turn on json mode, it is on by default
     route.JsonMode = true
     
-    // get route example
-    // In json mode, you must set the return value for the routing function, which supports struct, map, array types. beerus will automatically convert the return value to json response to the front-end.
-    // The first parameter, DemoParam, is a struct, and the parameters passed by the front-end will be automatically extracted into DemoParam
-    route.GET("/example/get", func (param DemoParam) map[string]string{
+    // Any request method can use the parameters of the routing function to receive the request parameters
+	// Routing functions must have a return value, supported types: struct, map, array
+	route.GET("/example/get", func (param DemoParam) map[string]string{
 		
         // In json mode, Just return the response data directly
         // Here is a demonstration with map, which actually supports struct, map, array types
