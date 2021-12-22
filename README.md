@@ -33,9 +33,9 @@ func CreateRoute() {
     route.JsonMode = true
     
     // Any request method can use the parameters of the routing function to receive the request parameters
-	// Routing functions must have a return value, supported types: struct, map, array
-	route.GET("/example/get", func (param DemoParam) map[string]string{
-		
+    // Routing functions must have a return value, supported types: struct, map, array
+    route.GET("/example/get", func (param DemoParam) map[string]string{
+    
         // In json mode, Just return the response data directly
         // Here is a demonstration with map, which actually supports struct, map, array types
         msg := make(map[string]string)
