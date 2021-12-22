@@ -80,10 +80,8 @@ func CreateRoute() {
     // Turn off json mode, it is on by default
     route.JsonMode = false
     
-        
-    // Example of parameter conversion to struct and parameter checksum
+	
     // In non-json mode, you need to call the Send function in the res object yourself to return the data
-    // The first parameter, DemoParam, is a struct, and the parameters passed by the front-end will be automatically extracted into DemoParam
     route.POST("/example/post", func (param  DemoParam, req commons.BeeRequest, res commons.BeeResponse) {
         
         // ----- Only non-json mode requires manual validation -----
@@ -97,7 +95,7 @@ func CreateRoute() {
             return
         }
         
-        
+        // It can respond to any type of data, but for demonstration purposes we are still using json here.
         res.SendJson(`{"msg":"SUCCESS"}`)
     })
 }
