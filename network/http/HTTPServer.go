@@ -45,6 +45,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	error := parsingParam(req)
 
 	if error != nil {
+		log.Println("[ERROR]: Parsing parameter exception, " + error.Error())
 		res.SendErrorMsg(500, error.Error())
 		return
 	}
