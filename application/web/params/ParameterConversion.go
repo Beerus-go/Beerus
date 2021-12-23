@@ -20,7 +20,9 @@ func ToStruct(request commons.BeeRequest, pointParamStruct interface{}) {
 	contentType := request.ContentType()
 
 	if commons.IsJSON(contentType) {
-		json.Unmarshal(util.StrToBytes(request.Json), pointParamStruct)
+		if request.Json != "" {
+			json.Unmarshal(util.StrToBytes(request.Json), pointParamStruct)
+		}
 		return
 	}
 
