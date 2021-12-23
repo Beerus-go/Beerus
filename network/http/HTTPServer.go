@@ -42,7 +42,7 @@ func handler(write http.ResponseWriter, request *http.Request) {
 	}
 
 	// Not WebSocket will handle http normally
-	var error = parsingParam(req)
+	error := parsingParam(req)
 
 	if error != nil {
 		res.SendErrorMsg(500, error.Error())
