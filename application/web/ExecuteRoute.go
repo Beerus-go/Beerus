@@ -104,14 +104,41 @@ func executeFunction(request *commons.BeeRequest, response *commons.BeeResponse,
 	if route.JsonMode {
 		result := method.Call(paramArray)
 
+		// Prompt the user if there is no return value, in JSON mode there must be
 		if result == nil || len(result) < 1 {
+			log.Println("[ERROR]: If you turn on json mode, then all routes must have a return value to give the front-end response through the return value")
 			response.SendErrorMsg(500, "If you turn on json mode, then all routes must have a return value to give the front-end response through the return value")
 			return
 		}
+
+		// If it returns a download, this is a file download route and the front-end response has already been given inside the route, so just return it here
 		if result[0].String() == Download {
 			return
 		}
 
+		// If there is more than one return value, then determine if the second value is of type error
+		if len(result) > 1 {
+			// If it is not of type error, then the user is prompted that it must be of type error
+			if result[1].Type().Name() != "error" {
+				log.Println("[ERROR]: In JSON mode, the second return value of the route must be of type error, or only one return value must be set")
+				response.SendErrorMsg(500, "In JSON mode, the second return value of the route must be of type error, or only one return value must be set")
+				return
+			}
+
+			// If it is an error type, then determine whether the value is empty,
+			//if not, it means that there is an exception inside the route, and respond directly to the front-end with the error message
+			errInterface := result[1].Interface()
+			if errInterface != nil {
+				err := errInterface.(error)
+				if err != nil {
+					response.SendErrorMsg(500, err.Error())
+					return
+				}
+			}
+		}
+
+		// If there is only one return value, or if the second return value is empty,
+		// the request is normal and the first return value is converted into a json response to the front-end.
 		resultJson, _ := util.ToJSONString(result[0].Interface())
 		response.SendJson(resultJson)
 	}

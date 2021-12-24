@@ -25,7 +25,7 @@ func CreateRoute() {
 	})
 
 	// Example of parameter conversion to struct and parameter checksum
-	route.POST("/example/post", func(param DemoParam, req commons.BeeRequest, res commons.BeeResponse) map[string]string {
+	route.POST("/example/post", func(param DemoParam, req commons.BeeRequest, res commons.BeeResponse) (map[string]string, error) {
 
 		println(param.TestStringReception)
 		println(param.TestIntReception)
@@ -41,7 +41,7 @@ func CreateRoute() {
 
 		msg := make(map[string]string)
 		msg["msg"] = "success"
-		return msg
+		return msg, nil
 	})
 
 	// Before request this route, the json mode needs to be turned off
