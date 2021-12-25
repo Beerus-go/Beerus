@@ -28,9 +28,6 @@ Create a function to manage the routing configuration
 
 ```go
 func CreateRoute() {
-	
-    // Turn on json mode, it is on by default
-    route.JsonMode = true
     
     // Any request method can use the parameters of the routing function to receive the request parameters
     // Routing functions must have a return value, supported types: struct, map, array
