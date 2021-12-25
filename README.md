@@ -13,7 +13,7 @@ It also provides WebSocket support to upgrade the http protocol to WebSocket and
 ## Installation
 
 ```shell
-go get github.com/yuyenews/Beerus@v1.1.6
+go get github.com/yuyenews/Beerus@v1.1.7
 ```
 
 ## Documentation
@@ -34,13 +34,15 @@ func CreateRoute() {
     
     // Any request method can use the parameters of the routing function to receive the request parameters
     // Routing functions must have a return value, supported types: struct, map, array
-    route.GET("/example/get", func (param DemoParam) map[string]string{
+    route.POST("/example/post", func (req commons.BeeRequest, res commons.BeeResponse) (map[string]string, error) {
     
-        // In json mode, Just return the response data directly
-        // Here is a demonstration with map, which actually supports struct, map, array types
+        if xxx {
+            return nil, errors.New("The error message you want to return to the front-end")
+        }
+        
         msg := make(map[string]string)
         msg["msg"] = "success"
-        return msg
+        return param, nil
     })
 }
 
