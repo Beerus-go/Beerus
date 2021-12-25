@@ -9,7 +9,10 @@ import (
 func main() {
 
 	// Interceptors, routes, etc. Loading of data requires its own calls
-	routes.CreateRoute()
+
+	//routes.CreateRoute()
+	routes.CreateJsonRoute()
+
 	routes.CreateWebSocketRoute()
 	interceptor.CreateInterceptor()
 
