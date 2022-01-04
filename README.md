@@ -31,7 +31,7 @@ func CreateRoute() {
     
     // Any request method can use the parameters of the routing function to receive the request parameters
     // Routing functions must have a return value, supported types: struct, map, array
-    route.POST("/example/post", func (req commons.BeeRequest, res commons.BeeResponse) (map[string]string, error) {
+    route.POST("/example/post", func (param  DemoParam, req commons.BeeRequest, res commons.BeeResponse) (map[string]string, error) {
     
         if xxx {
             return nil, errors.New("The error message you want to return to the front-end")
