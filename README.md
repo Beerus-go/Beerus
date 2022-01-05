@@ -155,6 +155,10 @@ func main() {
 
 [Complete sample code](https://github.com/yuyenews/Beerus/tree/master/example)
 
+## Database operations
+
+[Beerus-DB](https://github.com/yuyenews/Beerus-DB)
+
 ## License
 
 Beerus is [MIT licensed](https://github.com/yuyenews/Beerus/blob/master/LICENSE)
