@@ -1,0 +1,5 @@
+package cloud
+
+func DoCommunication() {
+
+}
