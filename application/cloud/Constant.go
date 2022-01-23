@@ -1,4 +1,4 @@
-package constant
+package cloud
 
 import "github.com/yuyenews/Beerus/application/cloud/croute"
 
