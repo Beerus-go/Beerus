@@ -8,13 +8,18 @@ import (
 	"strconv"
 )
 
+// Port
+// Record the port number,
+// if there are other places that need to get the port of this service, you can use this variable directly
+var Port = 8080
+
 // ListenHTTP Start an udp service
 func ListenHTTP(port int) {
 	if cloud.ServerName != "firstNode" && cloud.ConnectionUrl != "" {
 		croute.CreateCommunicationRoute()
 		cloud.DoCommunication()
 	}
-
+	Port = port
 	http.StartHttpServer(strconv.Itoa(port))
 }
 
