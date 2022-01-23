@@ -1,8 +1,8 @@
 package croute
 
 import (
+	"github.com/yuyenews/Beerus/application/cloud"
 	"github.com/yuyenews/Beerus/application/cloud/cmodel"
-	"github.com/yuyenews/Beerus/application/cloud/constant"
 	"sync"
 	"time"
 )
@@ -25,7 +25,7 @@ func (localRouteCacheManager *LocalRouteCacheManager) clearExpiredRoutes() {
 	newLocalRouteCacheModelArray := make([]*cmodel.LocalRouteCacheModel, 0)
 
 	for _, val := range localRouteCacheManager.LocalRouteCacheModelArray {
-		if (time.Now().Unix() - val.CreateTime) < constant.LocalCacheTimeout {
+		if (time.Now().Unix() - val.CreateTime) < cloud.LocalCacheTimeout {
 			newLocalRouteCacheModelArray = append(newLocalRouteCacheModelArray, val)
 		}
 	}

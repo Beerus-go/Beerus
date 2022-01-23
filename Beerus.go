@@ -2,7 +2,6 @@ package beerus
 
 import (
 	"github.com/yuyenews/Beerus/application/cloud"
-	"github.com/yuyenews/Beerus/application/cloud/constant"
 	"github.com/yuyenews/Beerus/application/cloud/croute"
 	"github.com/yuyenews/Beerus/network/http"
 	"github.com/yuyenews/Beerus/network/udp"
@@ -11,7 +10,7 @@ import (
 
 // ListenHTTP Start an udp service
 func ListenHTTP(port int) {
-	if constant.ServerName != "firstNode" && constant.ConnectionUrl != "" {
+	if cloud.ServerName != "firstNode" && cloud.ConnectionUrl != "" {
 		croute.CreateCommunicationRoute()
 		cloud.DoCommunication()
 	}

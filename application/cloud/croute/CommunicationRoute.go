@@ -1,8 +1,8 @@
 package croute
 
 import (
+	"github.com/yuyenews/Beerus/application/cloud"
 	"github.com/yuyenews/Beerus/application/cloud/cmodel"
-	"github.com/yuyenews/Beerus/application/cloud/constant"
 	"github.com/yuyenews/Beerus/application/web/route"
 	"time"
 )
@@ -10,13 +10,13 @@ import (
 // CreateCommunicationRoute
 // Create communication routes between nodes
 func CreateCommunicationRoute() {
-	route.POST(constant.CommunicationRoute, func(paramModel cmodel.ParamModel) (*cmodel.ParamModel, error) {
+	route.POST(cloud.CommunicationRoute, func(paramModel cmodel.ParamModel) (*cmodel.ParamModel, error) {
 
 		// Save the received interface
 		for key, val := range paramModel.ParamRoutes {
 			for _, va := range val {
 
-				routeMap := constant.LocalRouteCacheMap[key]
+				routeMap := cloud.LocalRouteCacheMap[key]
 				if routeMap == nil {
 					routeMap = make(map[string]*LocalRouteCacheManager)
 					routeMap[va.Path] = new(LocalRouteCacheManager)
@@ -25,7 +25,7 @@ func CreateCommunicationRoute() {
 				va.CreateTime = time.Now().Unix()
 				routeMap[va.Path].AddRoute(va)
 
-				constant.LocalRouteCacheMap[key] = routeMap
+				cloud.LocalRouteCacheMap[key] = routeMap
 			}
 		}
 
@@ -33,7 +33,7 @@ func CreateCommunicationRoute() {
 		paramModels := new(cmodel.ParamModel)
 		paramModels.ParamRoutes = make(map[string][]*cmodel.LocalRouteCacheModel)
 
-		for key, val := range constant.LocalRouteCacheMap {
+		for key, val := range cloud.LocalRouteCacheMap {
 			if val == nil {
 				continue
 			}
