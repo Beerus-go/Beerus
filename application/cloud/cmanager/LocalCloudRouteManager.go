@@ -1,16 +1,19 @@
-package croute
+package cmanager
 
 import (
-	"github.com/yuyenews/Beerus/application/cloud"
-	"github.com/yuyenews/Beerus/application/cloud/cmodel"
+	"github.com/yuyenews/Beerus/application/cloud/cparams"
 	"sync"
 	"time"
 )
 
+// LocalRouteCacheMap
+// A local route cache, including routes for this node and all nodes in the entire microservice, is the map from which nodes fetch URLs, methods and other relevant information when they call another node.
+var LocalRouteCacheMap = make(map[string]map[string]*LocalRouteCacheManager)
+
 // LocalRouteCacheManager
 // Local route cache management
 type LocalRouteCacheManager struct {
-	LocalRouteCacheModelArray []*cmodel.LocalRouteCacheModel
+	LocalRouteCacheModelArray []*cparams.LocalRouteCacheModel
 	index                     int
 	mutex                     sync.Mutex
 }
@@ -22,10 +25,10 @@ func (localRouteCacheManager *LocalRouteCacheManager) clearExpiredRoutes() {
 		return
 	}
 
-	newLocalRouteCacheModelArray := make([]*cmodel.LocalRouteCacheModel, 0)
+	newLocalRouteCacheModelArray := make([]*cparams.LocalRouteCacheModel, 0)
 
 	for _, val := range localRouteCacheManager.LocalRouteCacheModelArray {
-		if (time.Now().Unix() - val.CreateTime) < cloud.LocalCacheTimeout {
+		if (time.Now().Unix() - val.CreateTime) < cparams.LocalCacheTimeout {
 			newLocalRouteCacheModelArray = append(newLocalRouteCacheModelArray, val)
 		}
 	}
@@ -35,16 +38,24 @@ func (localRouteCacheManager *LocalRouteCacheManager) clearExpiredRoutes() {
 
 // AddRoute
 // Adding a route cache
-func (localRouteCacheManager *LocalRouteCacheManager) AddRoute(localRouteCacheModel *cmodel.LocalRouteCacheModel) {
+func (localRouteCacheManager *LocalRouteCacheManager) AddRoute(localRouteCacheModel *cparams.LocalRouteCacheModel) {
 	if localRouteCacheManager.LocalRouteCacheModelArray == nil {
-		localRouteCacheManager.LocalRouteCacheModelArray = make([]*cmodel.LocalRouteCacheModel, 0)
+		localRouteCacheManager.LocalRouteCacheModelArray = make([]*cparams.LocalRouteCacheModel, 0)
 	}
+
+	for _, val := range localRouteCacheManager.LocalRouteCacheModelArray {
+		if val.Url == localRouteCacheModel.Url && val.Method == localRouteCacheModel.Method {
+			val.CreateTime = time.Now().Unix()
+			return
+		}
+	}
+
 	localRouteCacheManager.LocalRouteCacheModelArray = append(localRouteCacheManager.LocalRouteCacheModelArray, localRouteCacheModel)
 }
 
-// GetIndex
+// GetRouteInfo
 // Get routing information in a polled fashion
-func (localRouteCacheManager *LocalRouteCacheManager) GetIndex() *cmodel.LocalRouteCacheModel {
+func (localRouteCacheManager *LocalRouteCacheManager) GetRouteInfo() *cparams.LocalRouteCacheModel {
 	localRouteCacheManager.mutex.Lock()
 	defer localRouteCacheManager.mutex.Unlock()
 
