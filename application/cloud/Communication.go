@@ -1,5 +1,0 @@
-package cloud
-
-func DoCommunication() {
-
-}

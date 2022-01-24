@@ -1,8 +1,6 @@
 package beerus
 
 import (
-	"github.com/yuyenews/Beerus/application/cloud"
-	"github.com/yuyenews/Beerus/application/cloud/croute"
 	"github.com/yuyenews/Beerus/network/http"
 	"github.com/yuyenews/Beerus/network/udp"
 	"strconv"
@@ -15,10 +13,6 @@ var Port = 8080
 
 // ListenHTTP Start an udp service
 func ListenHTTP(port int) {
-	if cloud.ServerName != "firstNode" && cloud.ConnectionUrl != "" {
-		croute.CreateCommunicationRoute()
-		cloud.DoCommunication()
-	}
 	Port = port
 	http.StartHttpServer(strconv.Itoa(port))
 }

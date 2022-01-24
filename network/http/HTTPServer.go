@@ -1,6 +1,9 @@
 package http
 
 import (
+	"github.com/yuyenews/Beerus/application/cloud/cmanager"
+	"github.com/yuyenews/Beerus/application/cloud/cparams"
+	"github.com/yuyenews/Beerus/application/cloud/croute"
 	"github.com/yuyenews/Beerus/application/web"
 	"github.com/yuyenews/Beerus/application/web/route"
 	"github.com/yuyenews/Beerus/commons/util"
@@ -15,6 +18,11 @@ import (
 
 // StartHttpServer Start an http service
 func StartHttpServer(port string) {
+	if cparams.ServerName != "firstNode" && cparams.ConnectionUrl != "" {
+		croute.CreateCommunicationRoute()
+		cmanager.InitLocalCacheRouteMap()
+		cmanager.DoCommunication()
+	}
 
 	route.ReloadMatchToUrl()
 

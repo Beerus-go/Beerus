@@ -1,6 +1,4 @@
-package cloud
-
-import "github.com/yuyenews/Beerus/application/cloud/croute"
+package cparams
 
 var (
 	// ServerName
@@ -19,18 +17,18 @@ var (
 	// CommunicationRoute
 	// Routing of the inter-node communication interface,
 	// used to synchronize the routing list of each service to each node, enabling services to call each other
-	CommunicationRoute = "beeruscc/04bdcbf5-2b06-4ac2-a283-9343b66ef16c"
+	CommunicationRoute = "/beeruscc/04bdcbf5-2b06-4ac2-a283-9343b66ef16c"
 
 	// LocalCacheTimeout
 	// Local route cache expiry time
 	// Unit: second
 	LocalCacheTimeout int64 = 10
 
+	// SecretKey
+	// Used to access the built-in interface to view data such as the node's local cache list
+	SecretKey = "04jsdskd5-2b06-4ac2-a283-9343b66ef89v"
+
 	// DataSynchronisationInterval
 	// Data synchronisation interval, default is cache expiry time -1
 	DataSynchronisationInterval = LocalCacheTimeout - 2
-
-	// LocalRouteCacheMap
-	// A local route cache, including routes for this node and all nodes in the entire microservice, is the map from which nodes fetch URLs, methods and other relevant information when they call another node.
-	LocalRouteCacheMap = make(map[string]map[string]*croute.LocalRouteCacheManager)
 )
