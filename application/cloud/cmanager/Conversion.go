@@ -18,7 +18,21 @@ func LocalRouteCacheMapToParamModel(from map[string]map[string]*LocalRouteCacheM
 		}
 
 		for _, va := range val {
-			paramModels.ParamRoutes[key] = va.LocalRouteCacheModelArray
+			cacheModelArray := paramModels.ParamRoutes[key]
+			if cacheModelArray == nil {
+				cacheModelArray = make([]*cparams.LocalRouteCacheModel, 0)
+				paramModels.ParamRoutes[key] = cacheModelArray
+			}
+
+			if va.LocalRouteCacheModelArray == nil {
+				continue
+			}
+
+			for _, model := range va.LocalRouteCacheModelArray {
+				cacheModelArray = append(cacheModelArray, model)
+			}
+
+			paramModels.ParamRoutes[key] = cacheModelArray
 		}
 	}
 

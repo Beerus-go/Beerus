@@ -1,6 +1,11 @@
 package cparams
 
 var (
+
+	// BeerusCloud
+	// Whether to enable microservice mode
+	BeerusCloud = false
+
 	// ServerName
 	// Service name, if not set it means it is the first node to start
 	// Which must be the same for multiple nodes of the same service, must be unique between services.

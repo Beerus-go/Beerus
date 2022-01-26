@@ -18,7 +18,7 @@ import (
 
 // StartHttpServer Start an http service
 func StartHttpServer(port string) {
-	if cparams.ServerName != "firstNode" && cparams.ConnectionUrl != "" {
+	if cparams.BeerusCloud {
 		croute.CreateCommunicationRoute()
 		cmanager.InitLocalCacheRouteMap()
 		cmanager.DoCommunication()
