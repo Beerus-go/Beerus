@@ -2,7 +2,7 @@ package commons
 
 import (
 	"errors"
-	"github.com/yuyenews/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/commons/util"
 	"strconv"
 	"strings"
 	"time"

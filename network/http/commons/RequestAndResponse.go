@@ -2,7 +2,7 @@ package commons
 
 import (
 	"fmt"
-	"github.com/yuyenews/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/commons/util"
 	"net/http"
 	"net/url"
 	"strconv"

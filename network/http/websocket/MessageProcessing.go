@@ -3,8 +3,8 @@ package websocket
 import (
 	"bytes"
 	"errors"
-	"github.com/yuyenews/Beerus/application/websocket"
-	"github.com/yuyenews/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/application/websocket"
+	"github.com/Beerus-go/Beerus/commons/util"
 )
 
 const (

@@ -2,11 +2,11 @@ package web
 
 import (
 	"encoding/json"
-	"github.com/yuyenews/Beerus/application/web/params"
-	"github.com/yuyenews/Beerus/application/web/route"
-	"github.com/yuyenews/Beerus/commons"
-	"github.com/yuyenews/Beerus/commons/util"
-	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/application/web/params"
+	"github.com/Beerus-go/Beerus/application/web/route"
+	"github.com/Beerus-go/Beerus/commons"
+	"github.com/Beerus-go/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/network/http/commons"
 	"log"
 	"reflect"
 	"strings"

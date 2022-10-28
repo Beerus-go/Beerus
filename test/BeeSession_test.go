@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/network/http/commons"
 	"log"
 	"testing"
 )

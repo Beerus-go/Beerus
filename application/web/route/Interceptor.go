@@ -1,8 +1,8 @@
 package route
 
 import (
-	"github.com/yuyenews/Beerus/commons/util"
-	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/network/http/commons"
 	"strings"
 )
 

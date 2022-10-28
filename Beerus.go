@@ -1,8 +1,8 @@
 package beerus
 
 import (
-	"github.com/yuyenews/Beerus/network/http"
-	"github.com/yuyenews/Beerus/network/udp"
+	"github.com/Beerus-go/Beerus/network/http"
+	"github.com/Beerus-go/Beerus/network/udp"
 	"strconv"
 )
 

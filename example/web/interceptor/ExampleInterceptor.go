@@ -1,8 +1,8 @@
 package interceptor
 
 import (
-	"github.com/yuyenews/Beerus/application/web/route"
-	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/application/web/route"
+	"github.com/Beerus-go/Beerus/network/http/commons"
 	"log"
 )
 

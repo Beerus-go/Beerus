@@ -1,9 +1,9 @@
 package websocket
 
 import (
-	"github.com/yuyenews/Beerus/application/websocket/wparams"
-	"github.com/yuyenews/Beerus/application/websocket/wroute"
-	"github.com/yuyenews/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/application/websocket/wparams"
+	"github.com/Beerus-go/Beerus/application/websocket/wroute"
+	"github.com/Beerus-go/Beerus/commons/util"
 	"log"
 	"net"
 )

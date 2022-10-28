@@ -2,9 +2,9 @@ package params
 
 import (
 	"fmt"
-	"github.com/yuyenews/Beerus/commons"
-	"github.com/yuyenews/Beerus/commons/util"
-	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/commons"
+	"github.com/Beerus-go/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/network/http/commons"
 	"reflect"
 	"regexp"
 	"strconv"

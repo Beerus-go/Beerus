@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/yuyenews/Beerus/application/web/params"
-	"github.com/yuyenews/Beerus/application/web/route"
-	"github.com/yuyenews/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/application/web/params"
+	"github.com/Beerus-go/Beerus/application/web/route"
+	"github.com/Beerus-go/Beerus/network/http/commons"
 )
 
 func CreateRoute() {

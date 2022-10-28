@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/yuyenews/Beerus/application/websocket/wparams"
-	"github.com/yuyenews/Beerus/application/websocket/wroute"
+	"github.com/Beerus-go/Beerus/application/websocket/wparams"
+	"github.com/Beerus-go/Beerus/application/websocket/wroute"
 )
 
 // CreateWebSocketRoute Creating websocket routes

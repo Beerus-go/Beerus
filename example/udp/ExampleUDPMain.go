@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/yuyenews/Beerus"
-	"github.com/yuyenews/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus"
+	"github.com/Beerus-go/Beerus/commons/util"
 )
 
 func main() {

@@ -1,14 +1,11 @@
 package http
 
 import (
-	"github.com/yuyenews/Beerus/application/cloud/cmanager"
-	"github.com/yuyenews/Beerus/application/cloud/cparams"
-	"github.com/yuyenews/Beerus/application/cloud/croute"
-	"github.com/yuyenews/Beerus/application/web"
-	"github.com/yuyenews/Beerus/application/web/route"
-	"github.com/yuyenews/Beerus/commons/util"
-	"github.com/yuyenews/Beerus/network/http/commons"
-	"github.com/yuyenews/Beerus/network/http/websocket"
+	"github.com/Beerus-go/Beerus/application/web"
+	"github.com/Beerus-go/Beerus/application/web/route"
+	"github.com/Beerus-go/Beerus/commons/util"
+	"github.com/Beerus-go/Beerus/network/http/commons"
+	"github.com/Beerus-go/Beerus/network/http/websocket"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -18,12 +15,6 @@ import (
 
 // StartHttpServer Start an http service
 func StartHttpServer(port string) {
-	if cparams.BeerusCloud {
-		croute.CreateCommunicationRoute()
-		cmanager.InitLocalCacheRouteMap()
-		cmanager.DoCommunication()
-	}
-
 	route.ReloadMatchToUrl()
 
 	http.HandleFunc("/", handler)

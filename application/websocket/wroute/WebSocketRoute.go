@@ -1,6 +1,6 @@
 package wroute
 
-import "github.com/yuyenews/Beerus/application/websocket/wparams"
+import "github.com/Beerus-go/Beerus/application/websocket/wparams"
 
 const (
 	OnConnection = "onConnection"
