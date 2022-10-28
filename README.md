@@ -13,7 +13,7 @@ It also provides WebSocket support to upgrade the http protocol to WebSocket and
 ## Installation
 
 ```shell
-go get github.com/Beerus-go/Beerus@v1.1.8
+go get github.com/Beerus-go/Beerus@v1.1.9
 ```
 
 ## Documentation
